@@ -44,19 +44,17 @@
 			}
 		</style>
 
-		<div id="content" class="more-less-content">
+		<div class="more-less-content">
 			<slot></slot>
 		</div>
 		<div class="more-less-blur"></div>
 		<button
-			id="more"
    			class="more-less-more"
 			is="d2l-image-action"
 			icon="d2l-tier1:arrow-toggle-down"
 			aria-hidden="true"
 			>more</button>
 		<button
-			id="less"
    			class="more-less-less"
 			is="d2l-image-action"
 			icon="d2l-tier1:arrow-toggle-up"
@@ -88,21 +86,28 @@
 
 		__baseHeight: 0,
 		__observer: null,
+		__content: null,
+		__more: null,
+		__less: null,
 
 		attached: function moreLessAttached() {
-			this.$.content.style.height = this.height;
+			this.__content = this.$$('.more-less-content');
+			this.__more = this.$$('.more-less-more');
+			this.__less = this.$$('.more-less-less');
+
+			this.__content.style.height = this.height;
 
 			Polymer.RenderStatus.afterNextRender(this, function moreLessAttachedNextRender() {
 				if (!this.isAttached) {
 					return;
 				}
 
-				this.__baseHeight = this.$.content.offsetHeight;
+				this.__baseHeight = this.__content.offsetHeight;
 				this.__reactToChanges();
 				this.__startObserving();
 
-				this.listen(this.$.more, 'click', '__more');
-				this.listen(this.$.less, 'click', '__less');
+				this.listen(this.__more, 'click', '__moreOnClick');
+				this.listen(this.__less, 'click', '__lessOnClick');
 			});
 		},
 		detached: function moreLessDetached() {
@@ -111,18 +116,18 @@
 				this.__observer = null;
 			}
 		},
-		__more: function moreLessMore() {
-			this.$.content.style.height = this.$.content.scrollHeight + 'px';
+		__moreOnClick: function moreLessMoreOnClick() {
+			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
-			this.$.less.focus();
+			this.__less.focus();
 		},
-		__less: function moreLessLess() {
-			this.$.content.style.height = this.height;
+		__lessOnClick: function moreLessLessOnClick() {
+			this.__content.style.height = this.height;
 			this.expanded = false;
-			this.$.more.focus();
+			this.__more.focus();
 		},
 		__reactToChanges: function moreLessReactToChanges() {
-			var contentHeight = this.$.content.scrollHeight;
+			var contentHeight = this.__content.scrollHeight;
 			if (contentHeight === this.__baseHeight) {
 				if (!this.inert) {
 					this.inert = true;
@@ -137,12 +142,12 @@
 			}
 
 			if (this.expanded) {
-				this.$.content.style.height = contentHeight + 'px';
+				this.__content.style.height = contentHeight + 'px';
 			}
 		},
 		__startObserving: function moreLessStartObserving() {
 			this.__observer = this.__observer || new MutationObserver(this.__reactToChanges.bind(this));
-			this.__observer.observe(this.$.content, {
+			this.__observer.observe(this.__content, {
 				childList: true,
 				subtree: true,
 				characterData: true,
