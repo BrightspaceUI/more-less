@@ -1,0 +1,91 @@
+<link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
+<script>
+(function() {
+	'use strict';
+	/** @polymerBehavior D2L.PolymerBehaviors.MoreLess.LocalizeBehavior */
+	var LocalizeBehavior = {
+		properties: {
+			language: {
+				type: String,
+				computed: '_computeLanguage(resources)'
+			},
+			resources: {
+				value: function() {
+					return {
+						'ar': {
+							more: 'المزيد',
+							less: 'أقل'
+						},
+						'en': {
+							more: 'more',
+							less: 'less'
+						},
+						'es': {
+							more: 'más',
+							less: 'menos'
+						},
+						'fr': {
+							more: 'plus',
+							less: 'moins'
+						},
+						'ja': {
+							more: 'より多い',
+							less: 'より少ない'
+						},
+						'ko': {
+							more: '더 보기',
+							less: '축소'
+						},
+						'nl': {
+							more: 'meer',
+							less: 'minder'
+						},
+						'pt': {
+							more: 'mais',
+							less: 'menos'
+						},
+						'sv': {
+							more: 'mer',
+							less: 'mindre'
+						},
+						'tr': {
+							more: 'diğer',
+							less: 'daha az'
+						},
+						'zh': {
+							more: '更多',
+							less: '更少'
+						},
+						'zh-tw': {
+							more: '較多',
+							less: '較少'
+						}
+					};
+				}
+			}
+		},
+		_computeLanguage: function(resources) {
+			var locale = document.documentElement.lang
+				|| document.documentElement.getAttribute('data-lang-default')
+				|| 'en-us';
+			locale = locale.toLowerCase();
+			if (resources[locale]) {
+				return locale;
+			}
+			var langAndRegion = locale.split('-');
+			if (resources[langAndRegion[0]]) {
+				return langAndRegion[0];
+			}
+			return 'en';
+		}
+	};
+	window.D2L = window.D2L || {};
+	window.D2L.PolymerBehaviors = window.D2L.PolymerBehaviors || {};
+	window.D2L.PolymerBehaviors.MoreLess = window.D2L.PolymerBehaviors.MoreLess || {};
+	/** @polymerBehavior */
+	window.D2L.PolymerBehaviors.MoreLess.LocalizeBehavior = [
+		Polymer.AppLocalizeBehavior,
+		LocalizeBehavior
+	];
+})();
+</script>

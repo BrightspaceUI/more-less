@@ -2,6 +2,8 @@
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
 
+<link rel="import" href="localize-behavior.html">
+
 <dom-module id="d2l-more-less">
 	<template>
 		<style>
@@ -53,18 +55,21 @@
 			is="d2l-image-action"
 			icon="d2l-tier1:arrow-toggle-down"
 			aria-hidden="true"
-			>more</button>
+		>{{localize('more')}}</button>
 		<button
    			class="more-less-less"
 			is="d2l-image-action"
 			icon="d2l-tier1:arrow-toggle-up"
 			aria-hidden="true"
-			>less</button>
+		>{{localize('less')}}</button>
 	</template>
 </dom-module>
 <script>
 	Polymer({
 		is: 'd2l-more-less',
+		behaviors: [
+			window.D2L.PolymerBehaviors.MoreLess.LocalizeBehavior
+		],
 		properties: {
 			height: {
 				type: String,

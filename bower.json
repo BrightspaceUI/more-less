@@ -17,6 +17,7 @@
   "dependencies": {
     "polymer": "^1.7.1",
     "d2l-image-action": "^0.6.3",
-    "d2l-icons": "^2.18.0"
+    "d2l-icons": "^2.18.0",
+    "app-localize-behavior": "^0.10.1"
   }
 }
