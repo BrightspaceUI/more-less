@@ -146,7 +146,7 @@
 			}
 		},
 		__startObserving: function moreLessStartObserving() {
-			this.__observer = this.__observer || new MutationObserver(this.__reactToChanges.bind(this));
+			this.__observer = new MutationObserver(this.__reactToChanges.bind(this));
 			this.__observer.observe(this.__content, {
 				childList: true,
 				subtree: true,
