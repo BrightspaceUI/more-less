@@ -173,16 +173,18 @@
 		},
 		__reactToChanges: function moreLessReactToChanges() {
 			var contentHeight = this.__content.scrollHeight;
-			if (contentHeight === this.__baseHeight) {
+			if (contentHeight <= this.__baseHeight) {
 				if (!this.inert) {
 					this.inert = true;
 					this.expanded = false;
+					this.__content.style.height = null;
 				}
 				return;
 			}
 
 			if (this.inert) {
 				this.inert = false;
+				this.__content.style.height = this.height;
 				return;
 			}
 
