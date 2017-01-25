@@ -50,21 +50,26 @@
 			}
 		</style>
 
-		<div class="more-less-content">
-			<slot></slot>
-		</div>
+		<div
+			class="more-less-content"
+			on-focusin="__focusIn"
+			on-focusout="__focusOut"
+			on-keydown="__keyDown"
+		><slot></slot></div>
 		<div class="more-less-blur"></div>
 		<button
    			class="more-less-more"
 			is="d2l-image-action"
 			icon="d2l-tier1:arrow-toggle-down"
 			aria-hidden="true"
+			on-click="__moreOnClick"
 		>{{localize('more')}}</button>
 		<button
    			class="more-less-less"
 			is="d2l-image-action"
 			icon="d2l-tier1:arrow-toggle-up"
 			aria-hidden="true"
+			on-click="__lessOnClick"
 		>{{localize('less')}}</button>
 	</template>
 </dom-module>
@@ -118,12 +123,6 @@
 				if (this.expanded) {
 					this.__expand();
 				}
-
-				this.listen(this.__more, 'click', '__moreOnClick');
-				this.listen(this.__less, 'click', '__lessOnClick');
-				this.listen(this.__content, 'focusin', '__focusIn');
-				this.listen(this.__content, 'focusout', '__focusOut');
-				this.listen(this.__content, 'keydown', '__keyDown');
 			});
 		},
 		detached: function moreLessDetached() {
@@ -131,12 +130,6 @@
 				this.__observer.disconnect();
 				this.__observer = null;
 			}
-
-			this.unlisten(this.__more, 'click', '__moreOnClick');
-			this.unlisten(this.__less, 'click', '__lessOnClick');
-			this.unlisten(this.__content, 'focusin', '__focusIn');
-			this.unlisten(this.__content, 'focusout', '__focusOut');
-			this.unlisten(this.__content, 'keydown', '__keyDown');
 		},
 		__expand: function moreLessExpand() {
 			this.__content.style.height = this.__content.scrollHeight + 'px';
