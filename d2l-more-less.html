@@ -131,6 +131,12 @@
 				this.__observer.disconnect();
 				this.__observer = null;
 			}
+
+			this.unlisten(this.__more, 'click', '__moreOnClick');
+			this.unlisten(this.__less, 'click', '__lessOnClick');
+			this.unlisten(this.__content, 'focusin', '__focusIn');
+			this.unlisten(this.__content, 'focusout', '__focusOut');
+			this.unlisten(this.__content, 'keydown', '__keyDown');
 		},
 		__expand: function moreLessExpand() {
 			this.__content.style.height = this.__content.scrollHeight + 'px';
