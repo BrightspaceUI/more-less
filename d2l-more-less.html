@@ -94,6 +94,8 @@
 		__content: null,
 		__more: null,
 		__less: null,
+		__autoExpanded: false,
+		__shift: false,
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
@@ -113,6 +115,9 @@
 
 				this.listen(this.__more, 'click', '__moreOnClick');
 				this.listen(this.__less, 'click', '__lessOnClick');
+				this.listen(this.__content, 'focusin', '__focusIn');
+				this.listen(this.__content, 'focusout', '__focusOut');
+				this.listen(this.__content, 'keydown', '__keyDown');
 			});
 		},
 		detached: function moreLessDetached() {
@@ -121,15 +126,45 @@
 				this.__observer = null;
 			}
 		},
-		__moreOnClick: function moreLessMoreOnClick() {
+		__expand: function moreLessExpand() {
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
-			this.__less.focus();
 		},
-		__lessOnClick: function moreLessLessOnClick() {
+		__shrink: function moreLessShrink() {
 			this.__content.style.height = this.height;
 			this.expanded = false;
+		},
+		__moreOnClick: function moreLessMoreOnClick() {
+			this.__expand();
+			this.__less.focus();
+			this.__autoExpanded = false;
+		},
+		__lessOnClick: function moreLessLessOnClick() {
+			this.__shrink();
 			this.__more.focus();
+			this.__autoExpanded = false;
+		},
+		__keyDown: function moreLessKeyDown(e) {
+			this.__shift = e.shiftKey;
+		},
+		__focusIn: function moreLessFocusIn() {
+			if (this.inert || this.expanded) {
+				return;
+			}
+
+			this.__expand();
+			this.__autoExpanded = true;
+		},
+		__focusOut: function moreLessFocusOut() {
+			if (this.inert || !this.__autoExpanded) {
+				return;
+			}
+
+			this.__shrink();
+			this.__autoExpanded = false;
+			if (!this.__shift) {
+				this.__more.focus();
+			}
 		},
 		__reactToChanges: function moreLessReactToChanges() {
 			var contentHeight = this.__content.scrollHeight;
