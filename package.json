@@ -2,7 +2,7 @@
   "name": "d2l-more-less",
   "private": true,
   "version": "1.0.0",
-  "description": "Polymer-based for component for a D2L more-less control",
+  "description": "Polymer-based web component for a D2L more-less control",
   "scripts": {
     "postinstall": "bower install",
     "test": "npm run test:lint:js && npm run test:lint:wc",

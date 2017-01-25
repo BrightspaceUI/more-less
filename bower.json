@@ -1,6 +1,6 @@
 {
   "name": "d2l-more-less",
-  "description": "Polymer-based for component for a D2L more-less control",
+  "description": "Polymer-based web component for a D2L more-less control",
   "main": "d2l-more-less.html",
   "authors": [
     "D2L Corporation"
