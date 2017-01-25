@@ -1,0 +1,153 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-icons/tier1-icons.html">
+<link rel="import" href="../d2l-image-action/d2l-image-action.html">
+
+<dom-module id="d2l-more-less">
+	<template>
+		<style>
+			.more-less-content {
+				overflow: hidden;
+				transition: height 400ms cubic-bezier(0, 0.7, 0.5, 1);
+			}
+
+			.more-less-blur {
+				display: block;
+				content: "";
+				position: relative;
+				height: 1em;
+				bottom: 1em;
+
+				background: linear-gradient(rgba(250, 250, 250, 0) 0%, rgb(250, 250, 250) 100%);
+
+				opacity: 1;
+				transition: opacity 400ms cubic-bezier(0, 0.7, 0.5, 1);
+			}
+			:host[expanded] .more-less-blur {
+				opacity: 0;
+			}
+
+			.more-less-less {
+				display: none;
+			}
+			:host[expanded] .more-less-less {
+				display: inline-block;
+			}
+
+			:host[expanded] .more-less-more {
+				display: none;
+			}
+
+			:host[inert] .more-less-blur,
+			:host[inert] .more-less-more,
+			:host[inert] .more-less-less {
+				display: none;
+			}
+		</style>
+
+		<div id="content" class="more-less-content">
+			<slot></slot>
+		</div>
+		<div class="more-less-blur"></div>
+		<button
+			id="more"
+   			class="more-less-more"
+			is="d2l-image-action"
+			icon="d2l-tier1:arrow-toggle-down"
+			aria-hidden="true"
+			>more</button>
+		<button
+			id="less"
+   			class="more-less-less"
+			is="d2l-image-action"
+			icon="d2l-tier1:arrow-toggle-up"
+			aria-hidden="true"
+			>less</button>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'd2l-more-less',
+		properties: {
+			height: {
+				type: String,
+				value: '4em',
+				notify: true,
+				reflectToAttribute: true
+			},
+			expanded: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			},
+			inert: {
+				type: Boolean,
+				value: false,
+				reflectToAttribute: true
+			}
+		},
+
+		__baseHeight: 0,
+		__observer: null,
+
+		attached: function moreLessAttached() {
+			this.$.content.style.height = this.height;
+
+			Polymer.RenderStatus.afterNextRender(this, function moreLessAttachedNextRender() {
+				if (!this.isAttached) {
+					return;
+				}
+
+				this.__baseHeight = this.$.content.offsetHeight;
+				this.__reactToChanges();
+				this.__startObserving();
+
+				this.listen(this.$.more, 'click', '__more');
+				this.listen(this.$.less, 'click', '__less');
+			});
+		},
+		detached: function moreLessDetached() {
+			if (this.__observer) {
+				this.__observer.disconnect();
+				this.__observer = null;
+			}
+		},
+		__more: function moreLessMore() {
+			this.$.content.style.height = this.$.content.scrollHeight + 'px';
+			this.expanded = true;
+			this.$.less.focus();
+		},
+		__less: function moreLessLess() {
+			this.$.content.style.height = this.height;
+			this.expanded = false;
+			this.$.more.focus();
+		},
+		__reactToChanges: function moreLessReactToChanges() {
+			var contentHeight = this.$.content.scrollHeight;
+			if (contentHeight === this.__baseHeight) {
+				if (!this.inert) {
+					this.inert = true;
+					this.expanded = false;
+				}
+				return;
+			}
+
+			if (this.inert) {
+				this.inert = false;
+				return;
+			}
+
+			if (this.expanded) {
+				this.$.content.style.height = contentHeight + 'px';
+			}
+		},
+		__startObserving: function moreLessStartObserving() {
+			this.__observer = this.__observer || new MutationObserver(this.__reactToChanges.bind(this));
+			this.__observer.observe(this.$.content, {
+				childList: true,
+				subtree: true,
+				characterData: true,
+				attributes: true
+			});
+		}
+	});
+</script>

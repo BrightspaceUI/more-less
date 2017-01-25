@@ -1,0 +1,29 @@
+{
+  "name": "d2l-more-less",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Polymer-based for component for a D2L more-less control",
+  "scripts": {
+    "postinstall": "bower install",
+    "test": "npm run test:lint:js && npm run test:lint:wc",
+    "test:lint:js": "eslint --ext html .",
+    "test:lint:wc": "polymer lint --input *.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrightspaceUI/more-less.git"
+  },
+  "author": "D2L Corporation",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/BrightspaceUI/more-less/issues"
+  },
+  "homepage": "https://github.com/BrightspaceUI/more-less#readme",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "eslint": "^3.14.0",
+    "eslint-config-brightspace": "^0.2.4",
+    "eslint-plugin-html": "^1.7.0",
+    "polymer-cli": "^0.17.0"
+  }
+}
