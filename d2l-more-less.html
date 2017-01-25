@@ -111,6 +111,10 @@
 				this.__reactToChanges();
 				this.__startObserving();
 
+				if (this.expanded) {
+					this.__expand();
+				}
+
 				this.listen(this.__more, 'click', '__moreOnClick');
 				this.listen(this.__less, 'click', '__lessOnClick');
 				this.listen(this.__content, 'focusin', '__focusIn');
