@@ -16,20 +16,14 @@
 				transition: height 400ms cubic-bezier(0, 0.7, 0.5, 1);
 			}
 
-			.more-less-blur {
+			:host:not([expanded]):not([inert]) .more-less-blur {
 				display: block;
 				content: "";
 				position: relative;
 				height: 1em;
 				bottom: 1em;
-
-				background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
-
 				opacity: 1;
-				transition: opacity 400ms cubic-bezier(0, 0.7, 0.5, 1);
-			}
-			:host[expanded] .more-less-blur {
-				opacity: 0;
+				background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
 			}
 
 			.more-less-less {
@@ -43,7 +37,6 @@
 				display: none;
 			}
 
-			:host[inert] .more-less-blur,
 			:host[inert] .more-less-more,
 			:host[inert] .more-less-less {
 				display: none;
