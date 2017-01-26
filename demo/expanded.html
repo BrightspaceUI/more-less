@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf8">
+
+		<script>
+			(function() {
+				var onload = function() {
+					if (!window.HTMLImports) {
+						document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
+					}
+				};
+
+				var webComponentsSupported = (
+					'registerElement' in document
+					&& 'import' in document.createElement('link')
+					&& 'content' in document.createElement('template')
+				);
+
+				if (!webComponentsSupported) {
+					var s = document.createElement('script');
+					s.async = true;
+					s.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.23/webcomponents-lite.min.js';
+					s.onload = onload;
+					document.head.appendChild(s);
+				} else {
+					onload();
+				}
+			})();
+		</script>
+
+		<link rel="import" href="../d2l-more-less.html">
+	</head>
+	<body>
+		<a href>Pre link</a>
+		<d2l-more-less expanded>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum elementum venenatis arcu sit amet varius. Maecenas posuere magna arcu, quis maximus odio fringilla ac. Integer ligula lorem, faucibus sit amet cursus vel, pellentesque a justo. Aliquam urna metus, molestie at tempor eget, vestibulum a purus. Donec aliquet rutrum mi. Duis ornare congue tempor. Nullam sed massa fermentum, tincidunt leo eu, vestibulum orci. Sed ultrices est in lacus venenatis, posuere suscipit arcu scelerisque. In aliquam ipsum rhoncus, lobortis ligula ut, molestie orci. Proin scelerisque tempor posuere. Phasellus consequat, lorem quis hendrerit tempor, sem lectus sagittis nunc, in tristique dui arcu non arcu. Nunc aliquam nisi et sapien commodo lacinia. <a href>Quisque</a> iaculis orci vel odio varius porta. Fusce tincidunt dolor enim, vitae sollicitudin purus suscipit eu.</p>
+		</d2l-more-less>
+		<a href>Post link</a>
+	</body>
+</html>
