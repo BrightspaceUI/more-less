@@ -13,6 +13,8 @@
 
 			.more-less-content {
 				overflow: hidden;
+			}
+			.more-less-transition {
 				transition: height 400ms cubic-bezier(0, 0.7, 0.5, 1);
 			}
 
@@ -96,6 +98,7 @@
 		__less: null,
 		__autoExpanded: false,
 		__shift: false,
+		__transitionAdded: false,
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
@@ -110,7 +113,7 @@
 				}
 
 				this.__baseHeight = this.__content.offsetHeight;
-				this.__reactToChanges();
+				this.__reactToChanges(true);
 				this.__startObserving();
 			});
 		},
@@ -120,11 +123,18 @@
 				this.__observer = null;
 			}
 		},
+		__addTransition: function moreLessAddTransition() {
+			if (!this.__transitionAdded) {
+				this.__content.classList.add('more-less-transition');
+			}
+		},
 		__expand: function moreLessExpand() {
+			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
 		},
 		__shrink: function moreLessShrink() {
+			this.__addTransition();
 			this.__content.style.height = this.height;
 			this.expanded = false;
 		},
@@ -160,7 +170,11 @@
 				this.__more.focus();
 			}
 		},
-		__reactToChanges: function moreLessReactToChanges() {
+		__reactToChanges: function moreLessReactToChanges(dontAddTransition) {
+			if (!dontAddTransition) {
+				this.__addTransition();
+			}
+
 			var contentHeight = this.__content.scrollHeight;
 			if (contentHeight <= this.__baseHeight) {
 				if (!this.inert) {
