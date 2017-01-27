@@ -140,6 +140,8 @@ i<link rel="import" href="../polymer/polymer.html">
 				this.__content.removeEventListener('blur', this.__bound_focusOut, true);
 				this.__bound_focusIn = null;
 				this.__bound_focusOut = null;
+				this.unlisten(document, 'focusin', '__switchFromFocusPolyfill');
+				this.unlisten(document, 'focusout', '__switchFromFocusPolyfill');
 			} else {
 				this.unlisten(this.__content, 'focusin', '__focusIn');
 				this.unlisten(this.__content, 'focusout', '__focusOut');
