@@ -1,4 +1,4 @@
-<link rel="import" href="../polymer/polymer.html">
+i<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
 
@@ -113,7 +113,7 @@
 				}
 
 				this.__baseHeight = this.__content.offsetHeight;
-				this.__reactToChanges(true);
+				this.__reactToChanges(null, true);
 				this.__startObserving();
 			});
 		},
@@ -170,7 +170,12 @@
 				this.__more.focus();
 			}
 		},
-		__reactToChanges: function moreLessReactToChanges(dontAddTransition) {
+		__reactToChanges: function moreLessReactToChanges(mutations, dontAddTransition) {
+			if (mutations && mutations.every(this.__isOwnMutation.bind(this))
+			) {
+				return;
+			}
+
 			if (!dontAddTransition) {
 				this.__addTransition();
 			}
@@ -194,6 +199,10 @@
 			if (this.expanded) {
 				this.__content.style.height = contentHeight + 'px';
 			}
+		},
+		__isOwnMutation: function moreLessIsOwnMutation(mutation) {
+			return mutation.target === this.__content
+				&& (mutation.type === 'style' || mutation.type === 'attributes');
 		},
 		__startObserving: function moreLessStartObserving() {
 			this.__observer = new MutationObserver(this.__reactToChanges.bind(this));
