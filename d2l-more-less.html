@@ -1,4 +1,4 @@
-i<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
 
@@ -210,8 +210,7 @@ i<link rel="import" href="../polymer/polymer.html">
 			this.listen(this.__content, 'focusout', '__focusOut');
 		},
 		__reactToChanges: function moreLessReactToChanges(mutations, dontAddTransition) {
-			if (mutations && mutations.every(this.__isOwnMutation.bind(this))
-			) {
+			if (mutations && mutations.every(this.__isOwnMutation.bind(this))) {
 				return;
 			}
 
