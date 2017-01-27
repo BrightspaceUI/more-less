@@ -47,8 +47,6 @@ i<link rel="import" href="../polymer/polymer.html">
 
 		<div
 			class="more-less-content"
-			on-focusin="__focusIn"
-			on-focusout="__focusOut"
 			on-keydown="__keyDown"
 		><slot></slot></div>
 		<div class="more-less-blur"></div>
@@ -99,6 +97,8 @@ i<link rel="import" href="../polymer/polymer.html">
 		__autoExpanded: false,
 		__shift: false,
 		__transitionAdded: false,
+		__bound_focusIn: null,
+		__bound_focusOut: null,
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
@@ -115,12 +115,36 @@ i<link rel="import" href="../polymer/polymer.html">
 				this.__baseHeight = this.__content.offsetHeight;
 				this.__reactToChanges(null, true);
 				this.__startObserving();
+
+				if (!('onfocusout' in window)) {
+					this.__bound_focusIn = this.__focusIn.bind(this);
+					this.__bound_focusOut = this.__focusOut.bind(this);
+					this.__content.addEventListener('focus', this.__bound_focusIn, true);
+					this.__content.addEventListener('blur', this.__bound_focusOut, true);
+					this.listen(document, 'focusin', '__switchFromFocusPolyfill');
+					this.listen(document, 'focusout', '__switchFromFocusPolyfill');
+				} else {
+					this.listen(this.__content, 'focusin', '__focusIn');
+					this.listen(this.__content, 'focusout', '__focusOut');
+				}
 			});
 		},
 		detached: function moreLessDetached() {
 			if (this.__observer) {
 				this.__observer.disconnect();
 				this.__observer = null;
+			}
+
+			if (this.__bound_focusIn !== null) {
+				this.__content.removeEventListener('focus', this.__bound_focusIn, true);
+				this.__content.removeEventListener('blur', this.__bound_focusOut, true);
+				this.__bound_focusIn = null;
+				this.__bound_focusOut = null;
+				this.unlisten(document, 'focusin', '__switchFromFocusPolyfill');
+				this.unlisten(document, 'focusout', '__switchFromFocusPolyfill');
+			} else {
+				this.unlisten(this.__content, 'focusin', '__focusIn');
+				this.unlisten(this.__content, 'focusout', '__focusOut');
 			}
 		},
 		__addTransition: function moreLessAddTransition() {
@@ -169,6 +193,21 @@ i<link rel="import" href="../polymer/polymer.html">
 			if (!this.__shift) {
 				this.__more.focus();
 			}
+		},
+		__switchFromFocusPolyfill: function moreLessSwitchFromFocusPolyFill() {
+			// Remove polyfill listeners
+			this.__content.removeEventListener('focus', this.__bound_focusIn, true);
+			this.__content.removeEventListener('blur', this.__bound_focusOut, true);
+			this.__bound_focusIn = null;
+			this.__bound_focusOut = null;
+
+			// Remove listeners for disabling polyfill
+			this.unlisten(document, 'focusin', '__switchFromFocusPolyfill');
+			this.unlisten(document, 'focusout', '__switchFromFocusPolyfill');
+
+			// Setup native listeners
+			this.listen(this.__content, 'focusin', '__focusIn');
+			this.listen(this.__content, 'focusout', '__focusOut');
 		},
 		__reactToChanges: function moreLessReactToChanges(mutations, dontAddTransition) {
 			if (mutations && mutations.every(this.__isOwnMutation.bind(this))
