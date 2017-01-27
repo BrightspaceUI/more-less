@@ -97,8 +97,8 @@ i<link rel="import" href="../polymer/polymer.html">
 		__autoExpanded: false,
 		__shift: false,
 		__transitionAdded: false,
-		__bound_focusInPoly: null,
-		__bound_focusOutPoly: null,
+		__bound_focusIn: null,
+		__bound_focusOut: null,
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
@@ -117,10 +117,10 @@ i<link rel="import" href="../polymer/polymer.html">
 				this.__startObserving();
 
 				if (!('onfocusout' in window)) {
-					this.__bound_focusInPoly = this.__focusInPoly.bind(this);
-					this.__bound_focusOutPoly = this.__focusOutPoly.bind(this);
-					document.addEventListener('focus', this.__bound_focusInPoly, true);
-					document.addEventListener('blur', this.__bound_focusOutPoly, true);
+					this.__bound_focusIn = this.__focusIn.bind(this);
+					this.__bound_focusOut = this.__focusOut.bind(this);
+					this.__content.addEventListener('focus', this.__bound_focusIn, true);
+					this.__content.addEventListener('blur', this.__bound_focusOut, true);
 					this.listen(document, 'focusin', '__switchFromFocusPolyfill');
 					this.listen(document, 'focusout', '__switchFromFocusPolyfill');
 				} else {
@@ -135,11 +135,11 @@ i<link rel="import" href="../polymer/polymer.html">
 				this.__observer = null;
 			}
 
-			if (this.__bound_focusInPoly !== null) {
-				document.removeEventListener('focus', this.__bound_focusInPoly, true);
-				document.removeEventListener('blur', this.__bound_focusOutPoly, true);
-				this.__bound_focusInPoly = null;
-				this.__bound_focusOutPoly = null;
+			if (this.__bound_focusIn !== null) {
+				this.__content.removeEventListener('focus', this.__bound_focusIn, true);
+				this.__content.removeEventListener('blur', this.__bound_focusOut, true);
+				this.__bound_focusIn = null;
+				this.__bound_focusOut = null;
 			} else {
 				this.unlisten(this.__content, 'focusin', '__focusIn');
 				this.unlisten(this.__content, 'focusout', '__focusOut');
@@ -181,11 +181,6 @@ i<link rel="import" href="../polymer/polymer.html">
 			this.__expand();
 			this.__autoExpanded = true;
 		},
-		__focusInPoly: function moreLessFocusInPoly(e) {
-			if (this.__focusPolyEventIsRelveant(e)) {
-				this.__focusIn();
-			}
-		},
 		__focusOut: function moreLessFocusOut() {
 			if (this.inert || !this.__autoExpanded) {
 				return;
@@ -197,32 +192,12 @@ i<link rel="import" href="../polymer/polymer.html">
 				this.__more.focus();
 			}
 		},
-		__focusOutPoly: function moreLessFocusOutPoly(e) {
-			if (this.__focusPolyEventIsRelveant(e)) {
-				this.__focusOut();
-			}
-		},
-		__focusPolyEventIsRelveant: function moreLessFocusPolyEventIsRelevant(e) {
-			if (e.path) {
-				return e.path.indexOf(this.__content) !== -1;
-			}
-
-			var el = e.target.parentElement;
-			while (el !== null) {
-				if (el === this.__content) {
-					return true;
-				}
-				el = el.parentElement;
-			}
-
-			return false;
-		},
 		__switchFromFocusPolyfill: function moreLessSwitchFromFocusPolyFill() {
 			// Remove polyfill listeners
-			document.removeEventListener('focus', this.__bound_focusInPoly, true);
-			document.removeEventListener('blur', this.__bound_focusOutPoly, true);
-			this.__bound_focusInPoly = null;
-			this.__bound_focusOutPoly = null;
+			this.__content.removeEventListener('focus', this.__bound_focusIn, true);
+			this.__content.removeEventListener('blur', this.__bound_focusOut, true);
+			this.__bound_focusIn = null;
+			this.__bound_focusOut = null;
 
 			// Remove listeners for disabling polyfill
 			this.unlisten(document, 'focusin', '__switchFromFocusPolyfill');
