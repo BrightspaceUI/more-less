@@ -85,6 +85,9 @@
 				type: Boolean,
 				value: false,
 				reflectToAttribute: true
+			},
+			blurColor: {
+				type: String
 			}
 		},
 
@@ -105,6 +108,7 @@
 			this.__less = this.$$('.more-less-less');
 
 			fastdom.mutate(this.__init_setBaseHeight, this);
+			fastdom.mutate(this.__init_setupBlurColour, this);
 			Polymer.RenderStatus.afterNextRender(this, this.__init_setupListeners);
 		},
 		detached: function moreLessDetached() {
@@ -141,6 +145,33 @@
 
 			this.__baseHeight = this.__content.offsetHeight;
 			this.__adjustToContent();
+		},
+		__init_setupBlurColour: function moreLessInitSetupBlurColour() {
+			if (!this.isAttached
+				|| !this.blurColor
+				|| this.blurColor[0] !== '#'
+				|| (this.blurColor.length !== 4 && this.blurColor.length !== 7)
+			) {
+				return;
+			}
+
+			var hex = this.blurColor.substring(1);
+
+			// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+			if (hex.length === 3) {
+				var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+				hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+					return r + r + g + g + b + b;
+				} );
+			}
+
+			var bigint = parseInt(hex, 16);
+			var r = (bigint >> 16) & 255;
+			var g = (bigint >> 8) & 255;
+			var b = bigint & 255;
+
+			this.$$('.more-less-blur').style.background =
+				'linear-gradient(rgba(' + r + ',' + g + ',' + b + ',0) 0%, rgb(' + r + ',' + g + ',' + b + ') 100%)';
 		},
 		__init_setupListeners: function moreLessInitSetupListeners() {
 			if (!this.isAttached) {
