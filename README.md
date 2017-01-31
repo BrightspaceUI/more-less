@@ -31,7 +31,7 @@ You can now wrap a `d2l-more-less` element around any content:
 
 #### `height` _(4em)_
 
-The `height` attribute sets the maximum height of the **content** when in "less" mode. The `d2l-more-less` element itself will take up additional vertical space in order to provide the fading effect and the more/less controls themselves. If the content is not at least this height `d2l-more-less` will become `inert` and add nothing to the page.
+The `height` attribute sets the maximum height of the **content** when in "less" mode. The `d2l-more-less` element itself will take up additional vertical space in order to provide the fading effect and the more/less controls themselves. If the content is not at least this height `d2l-more-less` will become inactive and add nothing to the page.
 ```html
 <d2l-more-less height="10rem">
 	<!-- content -->
