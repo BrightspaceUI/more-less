@@ -53,7 +53,7 @@ The `expanded` attribute will be present when `d2l-more-less` is in "more" mode.
 
 #### `blur-color` _(#fff)_
 
-	The blur-color atttribute will control the gradient colour of the blurring effect. It must be a properly formatted hex colour code, either in shorthand or longform.
+The blur-color atttribute will control the gradient colour of the blurring effect. It must be a properly formatted hex colour code, either in shorthand or longform.
 
 ```html
 <d2l-more-less blur-color="#f00">
