@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-fastdom-import/fastdom.html">
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
 
@@ -105,29 +106,8 @@
 			this.__more = this.$$('.more-less-more');
 			this.__less = this.$$('.more-less-less');
 
-			this.__content.style.height = this.height;
-
-			Polymer.RenderStatus.afterNextRender(this, function moreLessAttachedNextRender() {
-				if (!this.isAttached) {
-					return;
-				}
-
-				this.__baseHeight = this.__content.offsetHeight;
-				this.__reactToChanges(null, true);
-				this.__startObserving();
-
-				if (!('onfocusout' in window)) {
-					this.__bound_focusIn = this.__focusIn.bind(this);
-					this.__bound_focusOut = this.__focusOut.bind(this);
-					this.__content.addEventListener('focus', this.__bound_focusIn, true);
-					this.__content.addEventListener('blur', this.__bound_focusOut, true);
-					this.listen(document, 'focusin', '__switchFromFocusPolyfill');
-					this.listen(document, 'focusout', '__switchFromFocusPolyfill');
-				} else {
-					this.listen(this.__content, 'focusin', '__focusIn');
-					this.listen(this.__content, 'focusout', '__focusOut');
-				}
-			});
+			fastdom.mutate(this.__init_setBaseHeight, this);
+			Polymer.RenderStatus.afterNextRender(this, this.__init_setupListeners);
 		},
 		detached: function moreLessDetached() {
 			if (this.__observer) {
@@ -147,11 +127,43 @@
 				this.unlisten(this.__content, 'focusout', '__focusOut');
 			}
 		},
-		__addTransition: function moreLessAddTransition() {
-			if (!this.__transitionAdded) {
-				this.__content.classList.add('more-less-transition');
+		__init_setBaseHeight: function moreLessInitSetBaseHeight() {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.__content.style.height = this.height;
+
+			fastdom.measure(this.__init_measureBaseHeight, this);
+		},
+		__init_measureBaseHeight: function moreLessInitMeasureBaseHeight() {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.__baseHeight = this.__content.offsetHeight;
+			this.__adjustToContent();
+		},
+		__init_setupListeners: function moreLessInitSetupListeners() {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.__startObserving();
+
+			if (!('onfocusout' in window)) {
+				this.__bound_focusIn = this.__focusIn.bind(this);
+				this.__bound_focusOut = this.__focusOut.bind(this);
+				this.__content.addEventListener('focus', this.__bound_focusIn, true);
+				this.__content.addEventListener('blur', this.__bound_focusOut, true);
+				this.listen(document, 'focusin', '__switchFromFocusPolyfill');
+				this.listen(document, 'focusout', '__switchFromFocusPolyfill');
+			} else {
+				this.listen(this.__content, 'focusin', '__focusIn');
+				this.listen(this.__content, 'focusout', '__focusOut');
 			}
 		},
+
 		__expand: function moreLessExpand() {
 			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
@@ -209,34 +221,79 @@
 			this.listen(this.__content, 'focusin', '__focusIn');
 			this.listen(this.__content, 'focusout', '__focusOut');
 		},
-		__reactToChanges: function moreLessReactToChanges(mutations, dontAddTransition) {
-			if (mutations && mutations.every(this.__isOwnMutation.bind(this))) {
+		__addTransition: function moreLessAddTransition() {
+			if (!this.__transitionAdded) {
+				this.__content.classList.add('more-less-transition');
+				this.__transitionAdded = true;
+			}
+		},
+		__adjustToContent: function moreLessAdujstToContent() {
+			if (!this.isAttached) {
 				return;
 			}
 
-			if (!dontAddTransition) {
-				this.__addTransition();
-			}
-
 			var contentHeight = this.__content.scrollHeight;
+			var currentHeight = this.__content.offsetHeight;
+
 			if (contentHeight <= this.__baseHeight) {
 				if (!this.inert) {
-					this.inert = true;
-					this.expanded = false;
-					this.__content.style.height = null;
+					fastdom.mutate(this.__adjustToContent_makeInert, this);
 				}
 				return;
 			}
 
-			if (this.inert) {
-				this.inert = false;
-				this.__content.style.height = this.height;
+			if (this.expanded && contentHeight !== currentHeight) {
+				fastdom.mutate(this.__adjustToContent_resize.bind(this, contentHeight));
 				return;
 			}
 
-			if (this.expanded) {
-				this.__content.style.height = contentHeight + 'px';
+			if (this.inert) {
+				fastdom.mutate(this.__adjustToContent_makeActive, this);
 			}
+		},
+		__adjustToContent_makeInert: function moreLessAdjustToContentMakeInert() {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.inert = true;
+			this.expanded = false;
+			this.__content.style.height = null;
+		},
+		__adjustToContent_resize: function moreLessAdjustToContentResize(contentHeight) {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.__content.style.height = contentHeight + 'px';
+		},
+		__adjustToContent_makeActive: function moreLessAdjustToContentMakeActive() {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.inert = false;
+			this.__content.style.height = this.height;
+		},
+		__reactToChanges: function moreLessReactToChanges(mutations) {
+			if (mutations && mutations.every(this.__isOwnMutation.bind(this))) {
+				return;
+			}
+
+			if (!this.__transitionAdded) {
+				fastdom.mutate(this.__reactToChanges_setupTransition, this);
+			} else {
+				fastdom.measure(this.__adjustToContent, this);
+			}
+		},
+		__reactToChanges_setupTransition: function moreLessReactToChangesSetupTransition() {
+			if (!this.isAttached) {
+				return;
+			}
+
+			this.__addTransition();
+
+			fastdom.measure(this.__adjustToContent, this);
 		},
 		__isOwnMutation: function moreLessIsOwnMutation(mutation) {
 			return mutation.target === this.__content
