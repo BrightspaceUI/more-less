@@ -25,23 +25,17 @@
 				position: relative;
 				height: 1em;
 				bottom: 1em;
-				opacity: 1;
 				background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
 			}
 
-			.more-less-less {
-				display: none;
-			}
-			:host[expanded] .more-less-less {
+			:host[expanded] .more-less-less,
+			.more-less-more {
 				display: inline-block;
 			}
-
-			:host[expanded] .more-less-more {
-				display: none;
-			}
-
-			:host[inactive] .more-less-more,
-			:host[inactive] .more-less-less {
+			.more-less-less,
+			:host[inactive] .more-less-less,
+			:host[expanded] .more-less-more,
+			:host[inactive] .more-less-more {
 				display: none;
 			}
 		</style>
