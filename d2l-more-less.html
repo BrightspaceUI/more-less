@@ -2,6 +2,7 @@
 <link rel="import" href="../d2l-fastdom-import/fastdom.html">
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
+<link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
 
 <link rel="import" href="localize-behavior.html">
 
@@ -224,8 +225,11 @@
 			this.__expand();
 			this.__autoExpanded = true;
 		},
-		__focusOut: function moreLessFocusOut() {
-			if (this.inactive || !this.__autoExpanded) {
+		__focusOut: function moreLessFocusOut(e) {
+			if (this.inactive
+				|| !this.__autoExpanded
+				|| D2L.Dom.isComposedAncestor(this.__content, e.relatedTarget)
+			) {
 				return;
 			}
 
