@@ -33,37 +33,20 @@
 				background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
 			}
 
-			:host[expanded] .more-less-less,
-			.more-less-more {
-				display: inline-block;
-			}
-			.more-less-less,
-			:host[inactive] .more-less-less,
-			:host[expanded] .more-less-more,
-			:host[inactive] .more-less-more {
+			:host([inactive]) .more-less-toggle {
 				display: none;
 			}
 		</style>
 
-		<div
-			class="more-less-content"
-			on-keydown="__keyDown"
-		><slot></slot></div>
+		<div class="more-less-content"><slot></slot></div>
 		<div class="more-less-blur"></div>
 		<button
-   			class="more-less-more"
+   			class="more-less-toggle"
 			is="d2l-image-action"
 			icon="d2l-tier1:chevron-down"
 			aria-hidden="true"
-			on-tap="__moreOnClick"
+			on-tap="__toggleOnClick"
 		>{{localize('more')}}</button>
-		<button
-   			class="more-less-less"
-			is="d2l-image-action"
-			icon="d2l-tier1:chevron-up"
-			aria-hidden="true"
-			on-tap="__lessOnClick"
-		>{{localize('less')}}</button>
 	</template>
 </dom-module>
 <script>
@@ -95,8 +78,7 @@
 		__baseHeight: 0,
 		__observer: null,
 		__content: null,
-		__more: null,
-		__less: null,
+		__toggle: null,
 		__autoExpanded: false,
 		__shift: false,
 		__transitionAdded: false,
@@ -105,8 +87,7 @@
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
-			this.__more = this.$$('.more-less-more');
-			this.__less = this.$$('.more-less-less');
+			this.__toggle = this.$$('.more-less-toggle');
 
 			fastdom.mutate(this.__init_setBaseHeight, this);
 			fastdom.mutate(this.__init_setupBlurColour, this);
@@ -198,24 +179,26 @@
 			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
+
+			this.__toggle.icon = 'd2l-tier1:chevron-up';
+			Polymer.dom(this.__toggle).textContent = this.localize('less');
 		},
 		__shrink: function moreLessShrink() {
 			this.__addTransition();
 			this.__content.style.height = this.height;
 			this.expanded = false;
+
+			this.__toggle.icon = 'd2l-tier1:chevron-down';
+			Polymer.dom(this.__toggle).textContent = this.localize('more');
 		},
-		__moreOnClick: function moreLessMoreOnClick() {
-			this.__expand();
-			this.__less.focus();
+		__toggleOnClick: function moreLessOnClick() {
+			if (this.expanded) {
+				this.__shrink();
+			} else {
+				this.__expand();
+			}
+
 			this.__autoExpanded = false;
-		},
-		__lessOnClick: function moreLessLessOnClick() {
-			this.__shrink();
-			this.__more.focus();
-			this.__autoExpanded = false;
-		},
-		__keyDown: function moreLessKeyDown(e) {
-			this.__shift = e.shiftKey;
 		},
 		__focusIn: function moreLessFocusIn() {
 			if (this.inactive || this.expanded) {
@@ -235,9 +218,6 @@
 
 			this.__shrink();
 			this.__autoExpanded = false;
-			if (!this.__shift) {
-				this.__more.focus();
-			}
 		},
 		__switchFromFocusPolyfill: function moreLessSwitchFromFocusPolyFill() {
 			// Remove polyfill listeners
