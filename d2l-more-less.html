@@ -89,6 +89,9 @@
 			this.__content = this.$$('.more-less-content');
 			this.__toggle = this.$$('.more-less-toggle');
 
+			if (this.expanded) {
+				fastdom.mutate(this.__adjustToggle, this);
+			}
 			fastdom.mutate(this.__init_setBaseHeight, this);
 			fastdom.mutate(this.__init_setupBlurColour, this);
 			Polymer.RenderStatus.afterNextRender(this, this.__init_setupListeners);
@@ -174,22 +177,30 @@
 				this.listen(this.__content, 'focusout', '__focusOut');
 			}
 		},
-
 		__expand: function moreLessExpand() {
 			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
-
-			this.__toggle.icon = 'd2l-tier1:chevron-up';
-			Polymer.dom(this.__toggle).textContent = this.localize('less');
+			this._adjustToggle();
 		},
 		__shrink: function moreLessShrink() {
 			this.__addTransition();
 			this.__content.style.height = this.height;
 			this.expanded = false;
+			this._adjustToggle();
+		},
+		__adjustToggle: function moreLessAdjustToggle() {
+			if (!this.isAttached) {
+				return;
+			}
 
-			this.__toggle.icon = 'd2l-tier1:chevron-down';
-			Polymer.dom(this.__toggle).textContent = this.localize('more');
+			if (this.expanded) {
+				this.__toggle.icon = 'd2l-tier1:chevron-up';
+				Polymer.dom(this.__toggle).textContent = this.localize('less');
+			} else {
+				this.__toggle.icon = 'd2l-tier1:chevron-down';
+				Polymer.dom(this.__toggle).textContent = this.localize('more');
+			}
 		},
 		__toggleOnClick: function moreLessOnClick() {
 			if (this.expanded) {
