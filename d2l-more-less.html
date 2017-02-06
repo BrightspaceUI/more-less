@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../d2l-fastdom-import/fastdom.html">
+<link rel="import" href="../d2l-fastdom-import/fastdom.html"><script>/* global fastdom */</script>
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
@@ -145,9 +145,9 @@
 			// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
 			if (hex.length === 3) {
 				var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-				hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+				hex = hex.replace(shorthandRegex, function(m, r, g, b) {
 					return r + r + g + g + b + b;
-				} );
+				});
 			}
 
 			var bigint = parseInt(hex, 16);
