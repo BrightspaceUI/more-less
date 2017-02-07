@@ -181,13 +181,13 @@
 			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
-			this._adjustToggle();
+			this.__adjustToggle();
 		},
 		__shrink: function moreLessShrink() {
 			this.__addTransition();
 			this.__content.style.height = this.height;
 			this.expanded = false;
-			this._adjustToggle();
+			this.__adjustToggle();
 		},
 		__adjustToggle: function moreLessAdjustToggle() {
 			if (!this.isAttached) {
