@@ -84,6 +84,7 @@
 		__transitionAdded: false,
 		__bound_focusIn: null,
 		__bound_focusOut: null,
+		__bound_reactToChanges: null,
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
@@ -101,6 +102,9 @@
 				this.__observer.disconnect();
 				this.__observer = null;
 			}
+
+			this.__content.removeEventListener('load', this.__bound_reactToChanges, true);
+			this.__bound_reactToChanges = null;
 
 			if (this.__bound_focusIn !== null) {
 				this.__content.removeEventListener('focus', this.__bound_focusIn, true);
@@ -130,6 +134,10 @@
 
 			this.__baseHeight = this.__content.offsetHeight;
 			this.__adjustToContent();
+
+			// react to images and whatnot loading
+			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
+			this.__content.addEventListener('load', this.__bound_reactToChanges, true);
 		},
 		__init_setupBlurColour: function moreLessInitSetupBlurColour() {
 			if (!this.isAttached
@@ -300,7 +308,10 @@
 			this.__content.style.height = this.height;
 		},
 		__reactToChanges: function moreLessReactToChanges(mutations) {
-			if (mutations && mutations.every(this.__isOwnMutation.bind(this))) {
+			if (mutations
+				&& Array.isArray(mutations)
+				&& mutations.every(this.__isOwnMutation.bind(this))
+			) {
 				return;
 			}
 
@@ -324,7 +335,8 @@
 				&& (mutation.type === 'style' || mutation.type === 'attributes');
 		},
 		__startObserving: function moreLessStartObserving() {
-			this.__observer = new MutationObserver(this.__reactToChanges.bind(this));
+			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
+			this.__observer = new MutationObserver(this.__bound_reactToChanges);
 			this.__observer.observe(this.__content, {
 				childList: true,
 				subtree: true,
