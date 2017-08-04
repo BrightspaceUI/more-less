@@ -1,14 +1,14 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
 <script>
-	D2L = D2L || {};
-	D2L.PolymerBehaviors = D2L.PolymerBehaviors || {};
-	D2L.PolymerBehaviors.MoreLess = D2L.PolymerBehaviors.MoreLess || {};
+	window.D2L = window.D2L || {};
+	window.D2L.PolymerBehaviors = window.D2L.PolymerBehaviors || {};
+	window.D2L.PolymerBehaviors.MoreLess = window.D2L.PolymerBehaviors.MoreLess || {};
 	/**
 	 * Localizes the more-less component.
 	 * @polymerBehavior D2L.PolymerBehaviors.MoreLess.LocalizeBehavior
 	 */
-	D2L.PolymerBehaviors.MoreLess.LocalizeBehaviorImpl = {
+	window.D2L.PolymerBehaviors.MoreLess.LocalizeBehaviorImpl = {
 		properties: {
 			language: {
 				type: String,
@@ -88,6 +88,6 @@
 	/** @polymerBehavior */
 	D2L.PolymerBehaviors.MoreLess.LocalizeBehavior = [
 		Polymer.AppLocalizeBehavior,
-		D2L.PolymerBehaviors.MoreLess.LocalizeBehaviorImpl
+		window.D2L.PolymerBehaviors.MoreLess.LocalizeBehaviorImpl
 	];
 </script>
