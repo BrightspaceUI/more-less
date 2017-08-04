@@ -1,4 +1,5 @@
 # d2l-more-less
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/BrightspaceUI/more-less)
 [![Bower version][bower-image]][bower-url]
 [![Build status][ci-image]][ci-url]
 
@@ -85,6 +86,6 @@ npm run lint
 ```
 
 [bower-url]: http://bower.io/search/?q=d2l-more-less
-[bower-image]: https://img.shields.io/bower/v/d2l-more-less.svg
+[bower-image]: https://badge.fury.io/bo//d2l-more-less.svg
 [ci-url]: https://travis-ci.org/BrightspaceUI/more-less
 [ci-image]: https://travis-ci.org/BrightspaceUI/more-less.svg
