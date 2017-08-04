@@ -1,22 +1,25 @@
 # d2l-more-less
+[![Bower version][bower-image]][bower-url]
+[![Build status][ci-image]][ci-url]
 
-A [Polymer](https://www.polymer-project.org/1.0/)-based web component for D2L's more/less control.
+[Polymer](https://www.polymer-project.org)-based web component for D2L's more/less control.
 
-For further information on this and other D2L UI components, visit the docs at [ui.developers.brightspace.com](http://ui.developers.brightspace.com/).
-
+For further information on this and other Brightspace UI components, see the docs at [ui.developers.brightspace.com](http://ui.developers.brightspace.com/).
 
 ## Installation
 
-```sh
+```shell
 bower install d2l-more-less
 ```
 
 ## Usage
 
-Import d2l-more-less.html:
+Include the [webcomponents.js](http://webcomponents.org/polyfills/) "lite" polyfill (for browsers who don't natively support web components), then import `d2l-more-less.html`:
+
 ```html
 <head>
-	<link rel="import" href="../d2l-more-less/d2l-more-less.html">
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="bower_components/d2l-more-less/d2l-more-less.html">
 </head>
 ```
 
@@ -31,32 +34,57 @@ You can now wrap a `d2l-more-less` element around any content:
 
 #### `height` _(4em)_
 
-The `height` attribute sets the maximum height of the **content** when in "less" mode. The `d2l-more-less` element itself will take up additional vertical space in order to provide the fading effect and the more/less controls themselves. If the content is not at least this height `d2l-more-less` will become inactive and add nothing to the page.
+The `height` attribute sets the maximum height of the **content** when in "less" mode. The `d2l-more-less` element itself will take up additional vertical space in order to provide the fading effect and the more/less controls themselves. If the content is not at least this height, `d2l-more-less` will become inactive and add nothing to the page.
+
 ```html
 <d2l-more-less height="10rem">
 	<!-- content -->
 </d2l-more-less>
 ```
 
----
-
 #### `expanded`
 
-The `expanded` attribute will be present when `d2l-more-less` is in "more" mode. The element can also be made expanded by default by using this attriubte.
+The `expanded` attribute will be present when `d2l-more-less` is in "more" mode. The element can also be made expanded by default by using this attribute.
+
 ```html
 <d2l-more-less expanded>
 	<!-- content -->
 </d2l-more-less>
 ```
 
----
-
 #### `blur-color` _(#fff)_
 
-The blur-color atttribute will control the gradient colour of the blurring effect. It must be a properly formatted hex colour code, either in shorthand or longform.
+The blur-color attribute will control the gradient color of the blurring effect. It must be a properly formatted HEX color code, either in shorthand or longform.
 
 ```html
 <d2l-more-less blur-color="#f00">
 	<!-- content -->
 </d2l-more-less>
 ```
+
+## Developing, Testing and Contributing
+
+After cloning the repo, run `npm install` to install dependencies.
+
+If you don't have it already, install the [Polymer CLI](https://www.polymer-project.org/2.0/docs/tools/polymer-cli) globally:
+
+```shell
+npm install -g polymer-cli
+```
+
+To start a [local web server](https://www.polymer-project.org/2.0/docs/tools/polymer-cli-commands#serve) that hosts the demo page and tests:
+
+```shell
+polymer serve
+```
+
+To lint ([eslint](http://eslint.org/) and [Polymer lint](https://www.polymer-project.org/2.0/docs/tools/polymer-cli-commands#lint)):
+
+```shell
+npm run lint
+```
+
+[bower-url]: http://bower.io/search/?q=d2l-more-less
+[bower-image]: https://img.shields.io/bower/v/d2l-more-less.svg
+[ci-url]: https://travis-ci.org/BrightspaceUI/more-less
+[ci-image]: https://travis-ci.org/BrightspaceUI/more-less.svg
