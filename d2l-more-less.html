@@ -3,11 +3,15 @@
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-image-action/d2l-image-action.html">
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
-
 <link rel="import" href="localize-behavior.html">
+<!--
+`<d2l-more-less>` can be used to wrap a potentially tall piece of content and will automatically contrain it with a "more" link.
 
+@demo demo/index.html
+@element d2l-more-less
+-->
 <dom-module id="d2l-more-less">
-	<template>
+	<template strip-whitespace>
 		<style>
 			:host {
 				display: block;
@@ -37,48 +41,66 @@
 				display: none;
 			}
 		</style>
-
 		<div class="more-less-content"><slot></slot></div>
 		<div class="more-less-blur"></div>
-		<button
-   			class="more-less-toggle"
-			is="d2l-image-action"
-			icon="d2l-tier1:chevron-down"
+		<d2l-image-action-button
+			class="more-less-toggle"
+			icon="{{_icon}}"
 			aria-hidden="true"
 			on-tap="__toggleOnClick"
-		>{{localize('more')}}</button>
+		>{{_text}}</d2l-image-action-button>
 	</template>
 </dom-module>
 <script>
 	Polymer({
 		is: 'd2l-more-less',
 		behaviors: [
-			window.D2L.PolymerBehaviors.MoreLess.LocalizeBehavior
+			D2L.PolymerBehaviors.MoreLess.LocalizeBehavior
 		],
 		properties: {
+			/**
+			 * Sets the maximum height of the content when in "less" mode.
+			 */
 			height: {
 				type: String,
 				value: '4em'
 			},
+			/**
+			 * Attribute will be present when d2l-more-less is in "more" mode.
+			 */
 			expanded: {
 				type: Boolean,
 				value: false,
 				reflectToAttribute: true
 			},
+			/**
+			 * When set, the component is inactive.
+			 */
 			inactive: {
 				type: Boolean,
 				value: false,
 				reflectToAttribute: true
 			},
+			/**
+			 * Controls the gradient colour of the blurring effect. It must be
+			 * a properly formatted hex colour code, either in shorthand or longform.
+			 */
 			blurColor: {
 				type: String
+			},
+			_icon: {
+				type: String,
+				computed: '__computeIcon(expanded)'
+			},
+			_text: {
+				type: String,
+				computed: '__computeText(localize, expanded)'
 			}
 		},
 
 		__baseHeight: 0,
 		__observer: null,
 		__content: null,
-		__toggle: null,
 		__autoExpanded: false,
 		__shift: false,
 		__transitionAdded: false,
@@ -88,11 +110,7 @@
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
-			this.__toggle = this.$$('.more-less-toggle');
 
-			if (this.expanded) {
-				fastdom.mutate(this.__adjustToggle, this);
-			}
 			fastdom.mutate(this.__init_setBaseHeight, this);
 			fastdom.mutate(this.__init_setupBlurColour, this);
 			Polymer.RenderStatus.afterNextRender(this, this.__init_setupListeners);
@@ -117,6 +135,14 @@
 				this.unlisten(this.__content, 'focusin', '__focusIn');
 				this.unlisten(this.__content, 'focusout', '__focusOut');
 			}
+		},
+		__computeIcon: function(expanded) {
+			return expanded ? 'd2l-tier1:chevron-up' : 'd2l-tier1:chevron-down';
+		},
+		__computeText: function(localize, expanded) {
+			if (!localize) return;
+			var term = expanded ? 'less' : 'more';
+			return localize(term);
 		},
 		__init_setBaseHeight: function moreLessInitSetBaseHeight() {
 			if (!this.isAttached) {
@@ -189,26 +215,11 @@
 			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
-			this.__adjustToggle();
 		},
 		__shrink: function moreLessShrink() {
 			this.__addTransition();
 			this.__content.style.height = this.height;
 			this.expanded = false;
-			this.__adjustToggle();
-		},
-		__adjustToggle: function moreLessAdjustToggle() {
-			if (!this.isAttached) {
-				return;
-			}
-
-			if (this.expanded) {
-				this.__toggle.icon = 'd2l-tier1:chevron-up';
-				Polymer.dom(this.__toggle).textContent = this.localize('less');
-			} else {
-				this.__toggle.icon = 'd2l-tier1:chevron-down';
-				Polymer.dom(this.__toggle).textContent = this.localize('more');
-			}
 		},
 		__toggleOnClick: function moreLessOnClick() {
 			if (this.expanded) {

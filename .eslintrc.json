@@ -1,0 +1,9 @@
+{
+  "extends": "brightspace/polymer-config",
+  "globals": {
+    "fastdom": true
+  },
+  "rules": {
+    "eol-last": "off"
+  }
+}
