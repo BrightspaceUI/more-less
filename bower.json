@@ -20,7 +20,7 @@
     "d2l-icons": "^4.4.0 || ^3.6.0",
     "d2l-image-action": "^2.0.0",
     "d2l-localize-behavior": "^1.0.0",
-    "d2l-polymer-behaviors": "^1.0.0 || ^0.0.5",
+    "d2l-polymer-behaviors": "^1.1.1",
     "polymer": "Polymer/polymer#1 - 2"
   },
   "devDependencies": {
@@ -35,7 +35,6 @@
     "1.x": {
       "dependencies": {
         "d2l-icons": "^3.6.0",
-        "d2l-polymer-behaviors": "^0.0.5",
         "polymer": "Polymer/polymer#^1.9.3"
       },
       "devDependencies": {
