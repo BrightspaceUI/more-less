@@ -19,15 +19,44 @@ Include the [webcomponents.js](http://webcomponents.org/polyfills/) "lite" polyf
 
 ```html
 <head>
-	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-	<link rel="import" href="bower_components/d2l-more-less/d2l-more-less.html">
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../d2l-more-less/d2l-more-less.html">
 </head>
 ```
 
 You can now wrap a `d2l-more-less` element around any content:
+
+<!---
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../d2l-typography/d2l-typography.html">
+    <link rel="import" href="d2l-more-less.html">
+    <custom-style include="d2l-typography">
+      <style is="custom-style" include="d2l-typography"></style>
+    </custom-style>
+    <style>
+      html {
+        font-size: 20px;
+      }
+      body {
+        color: var(--d2l-color-ferrite);
+        font-family: 'Lato', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+        letter-spacing: 0.01rem;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.4rem;
+      }
+    </style>
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <d2l-more-less>
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies, ligula vulputate mattis aliquam, arcu arcu porttitor urna, ut pretium neque lorem venenatis elit. Fusce rutrum, nunc a tempor dictum, elit est lobortis libero, at lobortis nisl libero id enim. Vestibulum in lorem sed metus ornare faucibus a ac massa. Donec sodales massa vitae lacus blandit, at placerat erat blandit. Aenean consequat sapien ac viverra ornare. Nullam sem felis, ultrices nec egestas ut, mollis ac arcu. Nunc sit amet aliquam neque, fringilla lobortis justo. Sed pharetra, ipsum ut tempor tempor, sem risus tincidunt nisl, vitae feugiat lectus lorem a urna. In sit amet lobortis tellus. Sed suscipit magna et aliquam consequat. Pellentesque rhoncus ut dui at semper. Mauris vel ante euismod, tempus nunc eu, pellentesque lacus. Mauris consectetur ante eget consequat tempus.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies, ligula vulputate mattis aliquam, arcu arcu porttitor urna, ut pretium neque lorem venenatis elit. Fusce rutrum, nunc a tempor dictum, elit est lobortis libero, at lobortis nisl libero id enim. Vestibulum in lorem sed metus ornare faucibus a ac massa. Donec sodales massa vitae lacus blandit, at placerat erat blandit. Aenean consequat sapien ac viverra ornare. Nullam sem felis, ultrices nec egestas ut, mollis ac arcu. Nunc sit amet aliquam neque, fringilla lobortis justo. Sed pharetra, ipsum ut tempor tempor, sem risus tincidunt nisl, vitae feugiat lectus lorem a urna. In sit amet lobortis tellus. Sed suscipit magna et aliquam consequat. Pellentesque rhoncus ut dui at semper. Mauris vel ante euismod, tempus nunc eu, pellentesque lacus. Mauris consectetur ante eget consequat tempus.</p>
 </d2l-more-less>
 ```
 
