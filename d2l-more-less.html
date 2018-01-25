@@ -5,10 +5,10 @@
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
 <link rel="import" href="localize-behavior.html">
 <!--
-`<d2l-more-less>` can be used to wrap a potentially tall piece of content and will automatically contrain it with a "more" link.
+`<d2l-more-less>`
+Polymer-based web component to wrap potentially tall piece of content and will automatically contrain it with a "more" link.
 
 @demo demo/index.html
-@element d2l-more-less
 -->
 <dom-module id="d2l-more-less">
 	<template strip-whitespace>
@@ -54,48 +54,56 @@
 <script>
 	Polymer({
 		is: 'd2l-more-less',
+
 		behaviors: [
 			D2L.PolymerBehaviors.MoreLess.LocalizeBehavior
 		],
+
 		properties: {
+
 			/**
-			 * Sets the maximum height of the content when in "less" mode.
+			 * The maximum height of the content when in "less" state.
 			 */
 			height: {
 				type: String,
 				value: '4em'
 			},
+
 			/**
-			 * Attribute will be present when d2l-more-less is in "more" mode.
+			 * Indicates whether element is in "more" state.
 			 */
 			expanded: {
 				type: Boolean,
 				value: false,
 				reflectToAttribute: true
 			},
+
 			/**
-			 * When set, the component is inactive.
+			 * Whether the component is active or inactive.
 			 */
 			inactive: {
 				type: Boolean,
 				value: false,
 				reflectToAttribute: true
 			},
+
 			/**
-			 * Controls the gradient colour of the blurring effect. It must be
-			 * a properly formatted hex colour code, either in shorthand or longform.
+			 * The gradient color of the blurring effect. Must be hex color code.
 			 */
 			blurColor: {
 				type: String
 			},
+
 			_icon: {
 				type: String,
 				computed: '__computeIcon(expanded)'
 			},
+
 			_text: {
 				type: String,
 				computed: '__computeText(localize, expanded)'
 			}
+
 		},
 
 		__baseHeight: 0,
@@ -115,6 +123,7 @@
 			fastdom.mutate(this.__init_setupBlurColour, this);
 			Polymer.RenderStatus.afterNextRender(this, this.__init_setupListeners);
 		},
+
 		detached: function moreLessDetached() {
 			if (this.__observer) {
 				this.__observer.disconnect();
@@ -136,14 +145,17 @@
 				this.unlisten(this.__content, 'focusout', '__focusOut');
 			}
 		},
+
 		__computeIcon: function(expanded) {
 			return expanded ? 'd2l-tier1:chevron-up' : 'd2l-tier1:chevron-down';
 		},
+
 		__computeText: function(localize, expanded) {
 			if (!localize) return;
 			var term = expanded ? 'less' : 'more';
 			return localize(term);
 		},
+
 		__init_setBaseHeight: function moreLessInitSetBaseHeight() {
 			if (!this.isAttached) {
 				return;
@@ -153,6 +165,7 @@
 
 			fastdom.measure(this.__init_measureBaseHeight, this);
 		},
+
 		__init_measureBaseHeight: function moreLessInitMeasureBaseHeight() {
 			if (!this.isAttached) {
 				return;
@@ -165,6 +178,7 @@
 			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
 			this.__content.addEventListener('load', this.__bound_reactToChanges, true);
 		},
+
 		__init_setupBlurColour: function moreLessInitSetupBlurColour() {
 			if (!this.isAttached
 				|| !this.blurColor
@@ -192,6 +206,7 @@
 			this.$$('.more-less-blur').style.background =
 				'linear-gradient(rgba(' + r + ',' + g + ',' + b + ',0) 0%, rgb(' + r + ',' + g + ',' + b + ') 100%)';
 		},
+
 		__init_setupListeners: function moreLessInitSetupListeners() {
 			if (!this.isAttached) {
 				return;
@@ -211,16 +226,19 @@
 				this.listen(this.__content, 'focusout', '__focusOut');
 			}
 		},
+
 		__expand: function moreLessExpand() {
 			this.__addTransition();
 			this.__content.style.height = this.__content.scrollHeight + 'px';
 			this.expanded = true;
 		},
+
 		__shrink: function moreLessShrink() {
 			this.__addTransition();
 			this.__content.style.height = this.height;
 			this.expanded = false;
 		},
+
 		__toggleOnClick: function moreLessOnClick() {
 			if (this.expanded) {
 				this.__shrink();
@@ -230,6 +248,7 @@
 
 			this.__autoExpanded = false;
 		},
+
 		__focusIn: function moreLessFocusIn() {
 			if (this.inactive || this.expanded) {
 				return;
@@ -238,6 +257,7 @@
 			this.__expand();
 			this.__autoExpanded = true;
 		},
+
 		__focusOut: function moreLessFocusOut(e) {
 			if (this.inactive
 				|| !this.__autoExpanded
@@ -249,6 +269,7 @@
 			this.__shrink();
 			this.__autoExpanded = false;
 		},
+
 		__switchFromFocusPolyfill: function moreLessSwitchFromFocusPolyFill() {
 			// Remove polyfill listeners
 			this.__content.removeEventListener('focus', this.__bound_focusIn, true);
@@ -264,12 +285,14 @@
 			this.listen(this.__content, 'focusin', '__focusIn');
 			this.listen(this.__content, 'focusout', '__focusOut');
 		},
+
 		__addTransition: function moreLessAddTransition() {
 			if (!this.__transitionAdded) {
 				this.__content.classList.add('more-less-transition');
 				this.__transitionAdded = true;
 			}
 		},
+
 		__adjustToContent: function moreLessAdujstToContent() {
 			if (!this.isAttached) {
 				return;
@@ -294,6 +317,7 @@
 				fastdom.mutate(this.__adjustToContent_makeActive, this);
 			}
 		},
+
 		__adjustToContent_makeInactive: function moreLessAdjustToContentMakeInactive() {
 			if (!this.isAttached) {
 				return;
@@ -303,6 +327,7 @@
 			this.expanded = false;
 			this.__content.style.height = null;
 		},
+
 		__adjustToContent_resize: function moreLessAdjustToContentResize(contentHeight) {
 			if (!this.isAttached) {
 				return;
@@ -310,6 +335,7 @@
 
 			this.__content.style.height = contentHeight + 'px';
 		},
+
 		__adjustToContent_makeActive: function moreLessAdjustToContentMakeActive() {
 			if (!this.isAttached) {
 				return;
@@ -318,6 +344,7 @@
 			this.inactive = false;
 			this.__content.style.height = this.height;
 		},
+
 		__reactToChanges: function moreLessReactToChanges(mutations) {
 			if (mutations
 				&& Array.isArray(mutations)
@@ -332,6 +359,7 @@
 				fastdom.measure(this.__adjustToContent, this);
 			}
 		},
+
 		__reactToChanges_setupTransition: function moreLessReactToChangesSetupTransition() {
 			if (!this.isAttached) {
 				return;
@@ -341,10 +369,12 @@
 
 			fastdom.measure(this.__adjustToContent, this);
 		},
+
 		__isOwnMutation: function moreLessIsOwnMutation(mutation) {
 			return mutation.target === this.__content
 				&& (mutation.type === 'style' || mutation.type === 'attributes');
 		},
+
 		__startObserving: function moreLessStartObserving() {
 			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
 			this.__observer = new MutationObserver(this.__bound_reactToChanges);
@@ -355,5 +385,6 @@
 				attributes: true
 			});
 		}
+
 	});
 </script>
