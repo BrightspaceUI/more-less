@@ -111,8 +111,6 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 		__autoExpanded: false,
 		__shift: false,
 		__transitionAdded: false,
-		__bound_focusIn: null,
-		__bound_focusOut: null,
 		__bound_reactToChanges: null,
 
 		attached: function moreLessAttached() {
@@ -131,18 +129,8 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 			this.__content.removeEventListener('load', this.__bound_reactToChanges, true);
 			this.__bound_reactToChanges = null;
-
-			if (this.__bound_focusIn !== null) {
-				this.__content.removeEventListener('focus', this.__bound_focusIn, true);
-				this.__content.removeEventListener('blur', this.__bound_focusOut, true);
-				this.__bound_focusIn = null;
-				this.__bound_focusOut = null;
-				this.unlisten(document, 'focusin', '__switchFromFocusPolyfill');
-				this.unlisten(document, 'focusout', '__switchFromFocusPolyfill');
-			} else {
-				this.unlisten(this.__content, 'focusin', '__focusIn');
-				this.unlisten(this.__content, 'focusout', '__focusOut');
-			}
+			this.unlisten(this.__content, 'focusin', '__focusIn');
+			this.unlisten(this.__content, 'focusout', '__focusOut');
 		},
 
 		__computeIcon: function(expanded) {
@@ -212,18 +200,8 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			}
 
 			this.__startObserving();
-
-			if (!('onfocusout' in window)) {
-				this.__bound_focusIn = this.__focusIn.bind(this);
-				this.__bound_focusOut = this.__focusOut.bind(this);
-				this.__content.addEventListener('focus', this.__bound_focusIn, true);
-				this.__content.addEventListener('blur', this.__bound_focusOut, true);
-				this.listen(document, 'focusin', '__switchFromFocusPolyfill');
-				this.listen(document, 'focusout', '__switchFromFocusPolyfill');
-			} else {
-				this.listen(this.__content, 'focusin', '__focusIn');
-				this.listen(this.__content, 'focusout', '__focusOut');
-			}
+			this.listen(this.__content, 'focusin', '__focusIn');
+			this.listen(this.__content, 'focusout', '__focusOut');
 		},
 
 		__expand: function moreLessExpand() {
@@ -267,22 +245,6 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 			this.__shrink();
 			this.__autoExpanded = false;
-		},
-
-		__switchFromFocusPolyfill: function moreLessSwitchFromFocusPolyFill() {
-			// Remove polyfill listeners
-			this.__content.removeEventListener('focus', this.__bound_focusIn, true);
-			this.__content.removeEventListener('blur', this.__bound_focusOut, true);
-			this.__bound_focusIn = null;
-			this.__bound_focusOut = null;
-
-			// Remove listeners for disabling polyfill
-			this.unlisten(document, 'focusin', '__switchFromFocusPolyfill');
-			this.unlisten(document, 'focusout', '__switchFromFocusPolyfill');
-
-			// Setup native listeners
-			this.listen(this.__content, 'focusin', '__focusIn');
-			this.listen(this.__content, 'focusout', '__focusOut');
 		},
 
 		__addTransition: function moreLessAddTransition() {
