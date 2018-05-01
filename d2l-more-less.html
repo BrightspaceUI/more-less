@@ -351,7 +351,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			this.__observer = this.__observer || new MutationObserver(this.__bound_reactToChanges);
 			this.__observer.disconnect();
 
-			if (Polymer.Element) {
+			if (this.__contentSlot) {
 				var children = D2L.Dom.getComposedChildren(this.__contentSlot);
 				for (var i = 0; i < children.length; ++i) {
 					this.__observer.observe(children[i], {
