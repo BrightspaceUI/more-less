@@ -108,6 +108,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 		__baseHeight: 0,
 		__observer: null,
 		__content: null,
+		__contentSlot: null,
 		__autoExpanded: false,
 		__shift: false,
 		__transitionAdded: false,
@@ -115,6 +116,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
+			this.__contentSlot = this.$$('.more-less-content slot');
 
 			fastdom.mutate(this.__init_setBaseHeight, this);
 			fastdom.mutate(this.__init_setupBlurColour, this);
@@ -129,6 +131,10 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 			this.__content.removeEventListener('load', this.__bound_reactToChanges, true);
 			this.__bound_reactToChanges = null;
+			if (this.__contentSlot) {
+				this.unlisten(this.__contentSlot, 'slotchange', '__reactToChanges');
+				this.unlisten(this.__contentSlot, 'slotchange', '__startObserving');
+			}
 			this.unlisten(this.__content, 'focusin', '__focusIn');
 			this.unlisten(this.__content, 'focusout', '__focusOut');
 		},
@@ -200,6 +206,10 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			}
 
 			this.__startObserving();
+			if (this.__contentSlot) {
+				this.listen(this.__contentSlot, 'slotchange', '__reactToChanges');
+				this.listen(this.__contentSlot, 'slotchange', '__startObserving');
+			}
 			this.listen(this.__content, 'focusin', '__focusIn');
 			this.listen(this.__content, 'focusout', '__focusOut');
 		},
@@ -338,7 +348,20 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 		__startObserving: function moreLessStartObserving() {
 			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
-			this.__observer = new MutationObserver(this.__bound_reactToChanges);
+			this.__observer = this.__observer || new MutationObserver(this.__bound_reactToChanges);
+			this.__observer.disconnect();
+
+			if (Polymer.Element) {
+				var children = D2L.Dom.getComposedChildren(this.__contentSlot);
+				for (var i = 0; i < children.length; ++i) {
+					this.__observer.observe(children[i], {
+						childList: true,
+						subtree: true,
+						characterData: true,
+						attributes: true
+					});
+				}
+			}
 			this.__observer.observe(this.__content, {
 				childList: true,
 				subtree: true,
