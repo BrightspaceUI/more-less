@@ -2,9 +2,8 @@ language: node_js
 node_js:
 - '9'
 script:
-- npm run test:lint
-- polymer test --skip-plugin sauce
-- 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then polymer test --skip-plugin local; fi'
+- npm run test
+- 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then polymer test --skip-plugin local || travis_terminate 1; fi'
 env:
   global:
   - SAUCE_USERNAME: Desire2Learn
