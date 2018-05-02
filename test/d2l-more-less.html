@@ -47,7 +47,7 @@
 								expect(elem.expanded).to.be.false;
 								expect(elem.offsetHeight).to.be.below(content.scrollHeight);
 								done();
-							}, 50);
+							}, 100);
 					});
 				});
 				describe('expanded-dynamic', function() {
@@ -60,7 +60,7 @@
 								expect(elem.expanded).to.be.true;
 								expect(elem.offsetHeight).to.be.above(content.scrollHeight);
 								done();
-							}, 50);
+							}, 100);
 					});
 					it('should expand when more content is dynamically added', function(done) {
 						var content = elem.$$('.more-less-content');
@@ -74,8 +74,8 @@
 								expect(content.scrollHeight).to.be.above(previousContentHeight);
 								expect(elem.offsetHeight).to.be.above(content.scrollHeight);
 								done();
-							}, 300);
-						}, 50);
+							}, 350);
+						}, 100);
 					});
 				});
 			});
