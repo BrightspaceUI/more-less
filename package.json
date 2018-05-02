@@ -4,7 +4,8 @@
   "description": "Polymer-based web component for a D2L more-less control",
   "scripts": {
     "postinstall": "polymer install --variants",
-    "test": "npm run test:lint:js && npm run test:lint:wc",
+    "test": "npm run test:lint && polymer test --skip-plugin sauce",
+    "test:lint": "npm run test:lint:js && npm run test:lint:wc",
     "test:lint:js": "eslint *.html",
     "test:lint:wc": "polymer lint -i *.html"
   },
