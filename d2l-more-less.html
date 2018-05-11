@@ -26,16 +26,13 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			.more-less-blur {
 				display: none;
 			}
-			.more-less-toggle {
-				padding-top: 0.25rem;
-			}
 			:host(:not([expanded]):not([inactive])) .more-less-blur {
 				display: block;
 				content: "";
 				position: relative;
 				height: 1em;
 				bottom: 1em;
-				margin-bottom: -1em;
+				margin-bottom: -0.75em;
 				background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
 			}
 
