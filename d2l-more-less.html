@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-button/d2l-button-subtle.html">
 <link rel="import" href="../d2l-fastdom-import/fastdom.html"><script>/* global fastdom */</script>
 <link rel="import" href="../d2l-icons/tier1-icons.html">
-<link rel="import" href="../d2l-image-action/d2l-image-action.html">
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
 <link rel="import" href="localize-behavior.html">
 <!--
@@ -32,7 +32,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 				position: relative;
 				height: 1em;
 				bottom: 1em;
-				margin-bottom: -1em;
+				margin-bottom: -0.75em;
 				background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
 			}
 
@@ -42,12 +42,13 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 		</style>
 		<div class="more-less-content"><slot></slot></div>
 		<div class="more-less-blur"></div>
-		<d2l-image-action-button
+		<d2l-button-subtle
 			class="more-less-toggle"
 			icon="[[_icon]]"
 			aria-hidden="true"
 			on-tap="__toggleOnClick"
-		>[[_text]]</d2l-image-action-button>
+			text="[[_text]]"
+		></d2l-button-subtle>
 	</template>
 </dom-module>
 <script>
