@@ -108,6 +108,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 		__baseHeight: 0,
 		__observer: null,
+		__resizeObserver: null,
 		__content: null,
 		__contentSlot: null,
 		__autoExpanded: false,
@@ -128,6 +129,10 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			if (this.__observer) {
 				this.__observer.disconnect();
 				this.__observer = null;
+			}
+			if (this.__resizeObserver) {
+				this.__resizeObserver.disconnect();
+				this.__resizeObserver = null;
 			}
 
 			this.__content.removeEventListener('load', this.__bound_reactToChanges, true);
@@ -351,6 +356,8 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
 			this.__observer = this.__observer || new MutationObserver(this.__bound_reactToChanges);
 			this.__observer.disconnect();
+			this.__resizeObserver = this.__resizeObserver || new ResizeObserver(this.__bound_reactToChanges);
+			this.__resizeObserver.disconnect();
 
 			if (this.__contentSlot) {
 				var children = D2L.Dom.getComposedChildren(this.__contentSlot);
@@ -361,9 +368,21 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 						characterData: true,
 						attributes: true
 					});
+					this.__resizeObserver.observe(children[i], {
+						childList: true,
+						subtree: true,
+						characterData: true,
+						attributes: true
+					});
 				}
 			}
 			this.__observer.observe(this.__content, {
+				childList: true,
+				subtree: true,
+				characterData: true,
+				attributes: true
+			});
+			this.__resizeObserver.observe(this.__content, {
 				childList: true,
 				subtree: true,
 				characterData: true,
