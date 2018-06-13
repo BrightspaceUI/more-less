@@ -26,6 +26,5 @@
     "polymer-cli": "^1.5.7"
   },
   "dependencies": {
-    "resize-observer": "^0.1.0"
   }
 }
