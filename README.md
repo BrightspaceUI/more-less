@@ -92,6 +92,16 @@ The blur-color attribute will control the gradient color of the blurring effect.
 </d2l-more-less>
 ```
 
+#### `h-align`
+
+The `h-align` attribute controls the horizontal alignment of the more-less button, as documented in the [BrightspaceUI/button](https://github.com/BrightspaceUI/button) component.
+
+```html
+<d2l-more-less h-align="text">
+	<!-- content -->
+</d2l-more-less>
+```
+
 ## Developing, Testing and Contributing
 
 After cloning the repo, run `npm install` to install dependencies.
