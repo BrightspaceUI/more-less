@@ -49,6 +49,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			aria-hidden="true"
 			on-tap="__toggleOnClick"
 			text="[[_text]]"
+			h-align="[[hAlign]]"
 		></d2l-button-subtle>
 	</template>
 </dom-module>
@@ -92,6 +93,13 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			 * The gradient color of the blurring effect. Must be hex color code.
 			 */
 			blurColor: {
+				type: String
+			},
+			
+			/***
+			 * The h-align property of the more-less button.
+			 */
+			hAlign: {
 				type: String
 			},
 
