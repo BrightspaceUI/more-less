@@ -20,7 +20,8 @@
     "d2l-icons": "^4.5.1",
     "d2l-localize-behavior": "^1.1.0",
     "d2l-polymer-behaviors": "^1.2.0",
-    "polymer": "1 - 2"
+    "polymer": "1 - 2",
+    "d2l-resize-observer-polyfill-import": "Brightspace/resize-observer-polyfill-import#^1.5.0"
   },
   "devDependencies": {
     "d2l-typography": "^6.0.0",

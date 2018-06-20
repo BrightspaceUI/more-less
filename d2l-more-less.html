@@ -3,6 +3,7 @@
 <link rel="import" href="../d2l-fastdom-import/fastdom.html"><script>/* global fastdom */</script>
 <link rel="import" href="../d2l-icons/tier1-icons.html">
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
+<link rel="import" href="../d2l-resize-observer-polyfill-import/resize-observer.html">
 <link rel="import" href="localize-behavior.html">
 <!--
 `<d2l-more-less>`
@@ -349,7 +350,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 		__startObserving: function moreLessStartObserving() {
 			this.__bound_reactToChanges = this.__bound_reactToChanges || this.__reactToChanges.bind(this);
-			this.__observer = this.__observer || new MutationObserver(this.__bound_reactToChanges);
+			this.__observer = this.__observer || new ResizeObserver(this.__bound_reactToChanges);
 			this.__observer.disconnect();
 
 			if (this.__contentSlot) {
