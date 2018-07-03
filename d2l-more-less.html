@@ -279,6 +279,12 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 				return;
 			}
 
+			if (this.__baseHeight == 0) {
+				this.__content.style.height = this.height;
+				this.__baseHeight = this.__content.offsetHeight;
+				this.__content.style.height = null;
+			}
+
 			var contentHeight = this.__content.scrollHeight;
 			var currentHeight = this.__content.offsetHeight;
 
