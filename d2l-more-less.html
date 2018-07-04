@@ -68,8 +68,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			 */
 			height: {
 				type: String,
-				value: '4em',
-				notify: true
+				value: '4em'
 			},
 
 			/**
@@ -114,10 +113,6 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 				computed: '__computeText(localize, expanded)'
 			}
 
-		},
-
-		listeners: {
-			'height-changed': '__init_setBaseHeight'
 		},
 
 		__baseHeight: 0,
