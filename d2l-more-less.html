@@ -95,7 +95,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			blurColor: {
 				type: String
 			},
-			
+
 			/***
 			 * The h-align property of the more-less button.
 			 */
@@ -279,7 +279,7 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 				return;
 			}
 
-			if (this.__baseHeight == 0) {
+			if (this.__baseHeight === 0) {
 				this.__content.style.height = this.height;
 				this.__baseHeight = this.__content.offsetHeight;
 				this.__content.style.height = null;
