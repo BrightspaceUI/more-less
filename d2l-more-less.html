@@ -139,6 +139,8 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 
 			this.__content.removeEventListener('load', this.__bound_reactToChanges, true);
 			this.__bound_reactToChanges = null;
+			this.__bound_reactToMutationChanges = null;
+
 			if (this.__contentSlot) {
 				this.unlisten(this.__contentSlot, 'slotchange', '__reactToChanges');
 				this.unlisten(this.__contentSlot, 'slotchange', '__startObserving');
