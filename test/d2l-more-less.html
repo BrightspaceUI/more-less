@@ -77,7 +77,7 @@
 							var previousContentHeight = content.scrollHeight;
 							expect(elem.offsetHeight).to.be.above(content.scrollHeight);
 							var p = document.getElementById('clone-target');
-							p.parentNode.appendChild(p.cloneNode(true));
+							content.appendChild(p.cloneNode(true));
 
 							waitForInitialization(function() {
 								expect(content.scrollHeight).to.be.above(previousContentHeight);
