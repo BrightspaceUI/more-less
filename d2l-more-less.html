@@ -364,20 +364,10 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			if (this.__contentSlot) {
 				var children = D2L.Dom.getComposedChildren(this.__contentSlot);
 				for (var i = 0; i < children.length; ++i) {
-					this.__observer.observe(children[i], {
-						childList: true,
-						subtree: true,
-						characterData: true,
-						attributes: true
-					});
+					this.__observer.observe(children[i]);
 				}
 			}
-			this.__observer.observe(this.__content, {
-				childList: true,
-				subtree: true,
-				characterData: true,
-				attributes: true
-			});
+			this.__observer.observe(this.__content);
 		}
 
 	});
