@@ -5,6 +5,10 @@ addons:
 script:
 - npm run lint
 - |
+  echo $TRAVIS_PULL_REQUEST
+  echo "$TRAVIS_PULL_REQUEST"
+  echo $TRAVIS_SECURE_ENV_VARS
+  echo "$TRAVIS_SECURE_ENV_VARS"
   if [ $TRAVIS_PULL_REQUEST == true ] && [ $TRAVIS_SECURE_ENV_VARS == true ]; then
     echo "Pull request with secure environment variables, running Sauce tests...";
     npm run test:polymer:sauce || travis_terminate 1;
