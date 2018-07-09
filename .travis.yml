@@ -1,6 +1,5 @@
 language: node_js
-node_js:
-- '9'
+node_js: node
 script:
 - npm run test:lint
 - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then polymer test --skip-plugin local || travis_terminate 1; fi'
