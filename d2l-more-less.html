@@ -129,8 +129,10 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 		attached: function moreLessAttached() {
 			this.__content = this.$$('.more-less-content');
 			this.__contentSlot = this.$$('.more-less-content slot');
-
-			fastdom.mutate(this.__init_setBaseHeight, this);
+			
+			if (this.__content.offsetParent === null) {
+				fastdom.mutate(this.__init_setBaseHeight, this);
+			}
 			fastdom.mutate(this.__init_setupBlurColour, this);
 			Polymer.RenderStatus.afterNextRender(this, this.__init_setupListeners);
 		},
@@ -288,9 +290,8 @@ Polymer-based web component to wrap potentially tall piece of content and will a
 			}
 
 			if (this.__baseHeight === 0) {
-				this.__content.style.height = this.height;
-				this.__baseHeight = this.__content.offsetHeight;
-				this.__content.style.height = null;
+				fastdom.mutate(this.__init_setBaseHeight, this);
+				return;
 			}
 
 			var contentHeight = this.__content.scrollHeight;
