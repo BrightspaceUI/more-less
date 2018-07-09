@@ -24,6 +24,15 @@
 				</d2l-more-less>
 			</template>
 		</test-fixture>
+		<test-fixture id="initially-hidden">
+			<template>
+				<div style="display:none">
+					<d2l-more-less>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+					</d2l-more-less>
+				</div>
+			</template>
+		</test-fixture>
 		<test-fixture id="expanded-dynamic">
 			<template>
 				<d2l-more-less expanded>
@@ -60,6 +69,23 @@
 						});
 					});
 				});
+				describe('initially-hidden', function() {
+                    beforeEach(function() {
+                        div = fixture('initially-hidden');
+                        elem = div.getElementsByTagName('d2l-more-less')[0];
+                    });
+                    it('should be inactive when content is short and initially hidden', function(done) {
+                        setTimeout(function () {
+                            expect(elem.__baseHeight).to.equal(0);
+                            div.style.display = "block";
+                            setTimeout(function () {
+                                expect(elem.__baseHeight).to.be.above(0);
+                                expect(elem.inactive).to.be.true;
+                                done();
+                            }, 400);
+                        }, 400);
+                    });
+                });
 				describe('expanded-dynamic', function() {
 					beforeEach(function() {
 						elem = fixture('expanded-dynamic');
