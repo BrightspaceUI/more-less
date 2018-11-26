@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 		<title>d2l-more-less tests</title>
-		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-		<script src="../../web-component-tester/browser.js"></script>
-		<link rel="import" href="../d2l-more-less.html">
+		<script src="../../@babel/polyfill/browser.js"></script>
+		<script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+		<script src="../../wct-browser-legacy/browser.js"></script>
+		<script type="module" src="../d2l-more-less.js"></script>
 	</head>
 	<body>
 		<test-fixture id="basic">
@@ -40,81 +41,82 @@
 				</d2l-more-less>
 			</template>
 		</test-fixture>
-		<script>
-			describe('d2l-more-less', function() {
-				var elem, content;
-				function waitForInitialization(callback) {
-					if (content.style.height === '') {
-						setTimeout(function() { waitForInitialization(callback);}, 10);
-					} else {
-						setTimeout(function() { // Need the second timeout here to give the transition a chance to finish
-							callback();
-						}, 400);
-					}
-				}
-				describe('basic', function() {
-					beforeEach(function() {
-						elem = fixture('basic');
-						content = elem.$$('.more-less-content');
-					});
-					it('should instantiate the element', function() {
-						expect(elem.is).to.equal('d2l-more-less');
-						expect(content).to.exist;
-					});
-					it('should start closed', function(done) {
-						waitForInitialization(function() {
-							expect(elem.expanded).to.be.false;
-							expect(elem.offsetHeight).to.be.below(content.scrollHeight);
-							done();
-						});
-					});
-				});
-				describe('initially-hidden', function() {
-					var div;
-					beforeEach(function() {
-						div = fixture('initially-hidden');
-						elem = div.getElementsByTagName('d2l-more-less')[0];
-					});
-					it('should be inactive when content is short and initially hidden', function(done) {
-						setTimeout(function() {
-							expect(elem.__baseHeight).to.equal(0);
-							div.style.display = 'block';
-							setTimeout(function() {
-								expect(elem.__baseHeight).to.be.above(0);
-								expect(elem.inactive).to.be.true;
-								done();
-							}, 400);
-						}, 400);
-					});
-				});
-				describe('expanded-dynamic', function() {
-					beforeEach(function() {
-						elem = fixture('expanded-dynamic');
-						content = elem.$$('.more-less-content');
-					});
-					it('should start expanded', function(done) {
-						waitForInitialization(function() {
-							expect(elem.expanded).to.be.true;
-							expect(elem.offsetHeight).to.be.above(content.scrollHeight);
-							done();
-						});
-					});
-					it('should expand when more content is dynamically added', function(done) {
-						waitForInitialization(function() {
-							var previousContentHeight = content.scrollHeight;
-							expect(elem.offsetHeight).to.be.above(content.scrollHeight);
-							var p = document.getElementById('clone-target');
-							content.appendChild(p.cloneNode(true));
+		<script type="module">
+import '../d2l-more-less.js';
+describe('d2l-more-less', function() {
+	var elem, content;
+	function waitForInitialization(callback) {
+		if (content.style.height === '') {
+			setTimeout(function() { waitForInitialization(callback);}, 10);
+		} else {
+			setTimeout(function() { // Need the second timeout here to give the transition a chance to finish
+				callback();
+			}, 400);
+		}
+	}
+	describe('basic', function() {
+		beforeEach(function() {
+			elem = fixture('basic');
+			content = elem.$$('.more-less-content');
+		});
+		it('should instantiate the element', function() {
+			expect(elem.is).to.equal('d2l-more-less');
+			expect(content).to.exist;
+		});
+		it('should start closed', function(done) {
+			waitForInitialization(function() {
+				expect(elem.expanded).to.be.false;
+				expect(elem.offsetHeight).to.be.below(content.scrollHeight);
+				done();
+			});
+		});
+	});
+	describe('initially-hidden', function() {
+		var div;
+		beforeEach(function() {
+			div = fixture('initially-hidden');
+			elem = div.getElementsByTagName('d2l-more-less')[0];
+		});
+		it('should be inactive when content is short and initially hidden', function(done) {
+			setTimeout(function() {
+				expect(elem.__baseHeight).to.equal(0);
+				div.style.display = 'block';
+				setTimeout(function() {
+					expect(elem.__baseHeight).to.be.above(0);
+					expect(elem.inactive).to.be.true;
+					done();
+				}, 400);
+			}, 400);
+		});
+	});
+	describe('expanded-dynamic', function() {
+		beforeEach(function() {
+			elem = fixture('expanded-dynamic');
+			content = elem.$$('.more-less-content');
+		});
+		it('should start expanded', function(done) {
+			waitForInitialization(function() {
+				expect(elem.expanded).to.be.true;
+				expect(elem.offsetHeight).to.be.above(content.scrollHeight);
+				done();
+			});
+		});
+		it('should expand when more content is dynamically added', function(done) {
+			waitForInitialization(function() {
+				var previousContentHeight = content.scrollHeight;
+				expect(elem.offsetHeight).to.be.above(content.scrollHeight);
+				var p = document.getElementById('clone-target');
+				content.appendChild(p.cloneNode(true));
 
-							waitForInitialization(function() {
-								expect(content.scrollHeight).to.be.above(previousContentHeight);
-								expect(elem.offsetHeight).to.be.above(content.scrollHeight);
-								done();
-							});
-						});
-					});
+				waitForInitialization(function() {
+					expect(content.scrollHeight).to.be.above(previousContentHeight);
+					expect(elem.offsetHeight).to.be.above(content.scrollHeight);
+					done();
 				});
 			});
-		</script>
+		});
+	});
+});
+</script>
 	</body>
 </html>
