@@ -56,15 +56,6 @@
 					<d2l-more-less height="6em">
 						<p id="img-target">Hi everybody! <a href>Hi!</a></p>
 					</d2l-more-less>
-					<script>
-						// image is delayed so IE doesn't wait for it
-						// and give the WC time to load in before the image
-						setTimeout(function() {
-							var img = document.createElement('img');
-							document.getElementById('img-target').appendChild(img);
-							img.src = 'image.jpg';
-						}, 2000);
-					</script>
 				</template>
 			</demo-snippet>
 
@@ -74,16 +65,6 @@
 					<d2l-more-less expanded>
 						<p id="clone-target">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum elementum venenatis arcu sit amet varius. Maecenas posuere magna arcu, quis maximus odio fringilla ac. Integer ligula lorem, faucibus sit amet cursus vel, pellentesque a justo. Aliquam urna metus, molestie at tempor eget, vestibulum a purus. Donec aliquet rutrum mi. Duis ornare congue tempor. Nullam sed massa fermentum, tincidunt leo eu, vestibulum orci. Sed ultrices est in lacus venenatis, posuere suscipit arcu scelerisque. In aliquam ipsum rhoncus, lobortis ligula ut, molestie orci. Proin scelerisque tempor posuere. Phasellus consequat, lorem quis hendrerit tempor, sem lectus sagittis nunc, in tristique dui arcu non arcu. Nunc aliquam nisi et sapien commodo lacinia. <a href>Quisque</a> iaculis orci vel odio varius porta. Fusce tincidunt dolor enim, vitae sollicitudin purus suscipit eu.</p>
 					</d2l-more-less>
-					<script>
-						setTimeout(function() {
-							var p = document.getElementById('clone-target');
-							p.parentNode.appendChild(p.cloneNode(true));
-
-							setTimeout(function() {
-								p.textContent = 'cats';
-							}, 4000);
-						}, 10000);
-					</script>
 				</template>
 			</demo-snippet>
 
@@ -96,5 +77,26 @@
 				</template>
 			</demo-snippet>
 		</div>
+		<script>
+			document.addEventListener('WebComponentsReady', function() {
+				window.requestAnimationFrame(function() {
+					// Give the WC time to load in before the image
+					setTimeout(function() {
+						var img = document.createElement('img');
+						document.getElementById('img-target').appendChild(img);
+						img.src = 'image.jpg';
+					}, 2000);
+
+					setTimeout(function() {
+						var p = document.getElementById('clone-target');
+						p.parentNode.appendChild(p.cloneNode(true));
+
+						setTimeout(function() {
+							p.textContent = 'cats';
+						}, 4000);
+					}, 10000);
+				});
+			});
+		</script>
 	</body>
 </html>
