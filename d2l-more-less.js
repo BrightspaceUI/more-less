@@ -1,18 +1,12 @@
-import '../@polymer/polymer/polymer-legacy.js';
-import '../d2l-button/d2l-button-subtle.js';
-import '../fastdom/fastdom.js';
-import '../d2l-icons/tier1-icons.js';
-import '../d2l-polymer-behaviors/d2l-dom.js';
-import ResizeObserver from '../resize-observer-polyfill/dist/ResizeObserver.es.js';
+import '@polymer/polymer/polymer-legacy.js';
+import 'd2l-button/d2l-button-subtle.js';
+import 'fastdom/fastdom.js';
+import 'd2l-icons/tier1-icons.js';
+import 'd2l-polymer-behaviors/d2l-dom.js';
+import ResizeObserver from 'resize-observer-polyfill/dist/ResizeObserver.es.js';
 import './localize-behavior.js';
-import { Polymer } from '../@polymer/polymer/lib/legacy/polymer-fn.js';
-import { afterNextRender } from '../@polymer/polymer/lib/utils/render-status.js';
-/**
-`<d2l-more-less>`
-Polymer-based web component to wrap potentially tall piece of content and will automatically contrain it with a "more" link.
-
-@demo demo/index.html
-*/
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="d2l-more-less">
@@ -52,7 +46,17 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-more-less">
 </dom-module>`;
 
 document.head.appendChild($_documentContainer.content);
+/**
+`<d2l-more-less>`
+Polymer-based web component to wrap potentially tall piece of content and will automatically contrain it with a "more" link.
 
+@demo demo/index.html
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
 Polymer({
 	is: 'd2l-more-less',
 
