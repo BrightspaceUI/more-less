@@ -3,7 +3,7 @@ import 'd2l-button/d2l-button-subtle.js';
 import 'fastdom/fastdom.js';
 import 'd2l-icons/tier1-icons.js';
 import 'd2l-polymer-behaviors/d2l-dom.js';
-import ResizeObserver from 'resize-observer-polyfill/dist/ResizeObserver.es.js';
+import { ResizeObserver } from 'd2l-resize-aware/resize-observer-module.js';
 import './localize-behavior.js';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
