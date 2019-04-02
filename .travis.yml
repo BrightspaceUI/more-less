@@ -25,6 +25,7 @@ deploy:
     tags: true
 env:
   global:
+  - OWNER_NAME=BrightspaceUI
   - REPO_NAME=more-less
   - SAUCE_USERNAME: Desire2Learn
   - secure: JcitFMmIwUib1xQHMR4nxXtAcUmH76VJaYRKF6cN/vDZJqhVt+w+CZnZGhJ6cNtG162MycbJQKtAt/dzUC32aCsmSeA3GlD6zV0j6frRHy0n+/blO0tL4jLley4m1dobRiOY0au3o02yrS+sxZQdgYnxoRr7X8Ch29cjJrj6cc7sVG0OQtuJTlUysOY4/pCkp+XXrFNMAP0Ria/LkuqiFQx2JsokssM7Cm/iWjddX6IQjypmEg3koNY7+qbxxexbYAJg/jBMi1Eu+aoQjIr9q4w/ZMKafdJ2l94q1Z0OrgpnsiOFPMG4Lx4k9OkJ35pZ5vYWSNmiG6p1mkfnpr/xNsFscN51daI6MpI5D/8mgHv01F0E40zc/UdOFK6PnfkZCXnCc++Micfi+o2cbxkzMb6WM2Cr2hepsbbvV2Tci1J207wFxNf0PHhIGzhoXScqChhLyDaIvAP40IFvXjAIovt0zM4SUGETMK43p27hgcV+iAL5Cfuo/4tHhAS64DrcpGVMnpBrIdbSZSgJa9adheIo36NNr9NLLDkxinNTEzJpc6ZRWU934bX7n7wTrYD7LHch+Lacwg7iOi4QuB4so7ObiY8JXYundfRHvnWrgq+xRhJSmCVtAhTI9ITLkawDREeOtWMaP9XiBJdbUBrCXKCa+YU82OIajA6oYBNVFeM=
