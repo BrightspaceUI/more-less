@@ -43,12 +43,13 @@
   },
   "main": "d2l-more-less.js",
   "dependencies": {
+    "@polymer/polymer": "^3.0.0",
     "d2l-button": "BrightspaceUI/button#semver:^5",
-    "fastdom": "^1.0.8",
+    "d2l-core-ui": "git+https://github.com/BrightspaceUI/core.git",
     "d2l-icons": "BrightspaceUI/icons#semver:^6",
     "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2",
     "d2l-polymer-behaviors": "Brightspace/d2l-polymer-behaviors-ui#semver:^2",
-    "@polymer/polymer": "^3.0.0",
+    "fastdom": "^1.0.8",
     "resize-observer-polyfill": "^1.5.0"
   }
 }
