@@ -1,1 +1,1 @@
-import 'd2l-core-ui/components/more-less/more-less.js';
+import '@brightspace-ui/core/components/more-less/more-less.js';

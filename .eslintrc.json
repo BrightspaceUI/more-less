@@ -1,8 +1,5 @@
 {
   "extends": "brightspace/polymer-3-config",
-  "globals": {
-    "fastdom": true
-  },
   "rules": {
     "eol-last": "off"
   }
