@@ -128,6 +128,7 @@ Polymer({
 	__transitionAdded: false,
 	__bound_reactToChanges: null,
 	__bound_reactToMutationChanges: null,
+	__bound_transitionEvents: null,
 
 	attached: function moreLessAttached() {
 		this.__content = this.$$('.more-less-content');
@@ -138,6 +139,12 @@ Polymer({
 		}
 		fastdom.mutate(this.__init_setupBlurColour, this);
 		afterNextRender(this, this.__init_setupListeners);
+
+		this.__bound_transitionEvents = this.__transitionEvents.bind(this);
+		this.shadowRoot.addEventListener('transitionstart', this.__bound_transitionEvents);
+		this.shadowRoot.addEventListener('transitionend', this.__bound_transitionEvents);
+		this.shadowRoot.addEventListener('transitioncancel', this.__bound_transitionEvents);
+		this.shadowRoot.addEventListener('transitionrun', this.__bound_transitionEvents);
 	},
 
 	detached: function moreLessDetached() {
@@ -160,6 +167,10 @@ Polymer({
 		}
 		this.unlisten(this.__content, 'focusin', '__focusIn');
 		this.unlisten(this.__content, 'focusout', '__focusOut');
+		this.shadowRoot.removeEventListener('transitionstart', this.__bound_transitionEvents);
+		this.shadowRoot.removeEventListener('transitionend', this.__bound_transitionEvents);
+		this.shadowRoot.removeEventListener('transitioncancel', this.__bound_transitionEvents);
+		this.shadowRoot.removeEventListener('transitionrun', this.__bound_transitionEvents);
 	},
 
 	__computeIcon: function(expanded) {
@@ -405,6 +416,10 @@ Polymer({
 			characterData: true,
 			attributes: true
 		});
+	},
+
+	__transitionEvents: function(e) {
+		this.dispatchEvent(new CustomEvent(e.type, { bubbles: true, detail: e.detail}));
 	}
 
 });
