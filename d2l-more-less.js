@@ -419,7 +419,7 @@ Polymer({
 	},
 
 	__transitionEvents: function(e) {
-		this.dispatchEvent(new CustomEvent(e.type, { bubbles: true, detail: e.detail}));
+		this.dispatchEvent(new CustomEvent(e.type, { bubbles: true, composed: true, detail: e.detail}));
 	}
 
 });
