@@ -1,17 +1,7 @@
 language: node_js
 node_js: node
-addons:
-  chrome: stable
 script:
-- npm run lint
-- |
-  if [ $TRAVIS_PULL_REQUEST != false ] && [ $TRAVIS_SECURE_ENV_VARS == true ]; then
-    echo "Pull request with secure environment variables, running Sauce tests...";
-    npm run test:polymer:sauce || travis_terminate 1;
-  else
-    echo "Not a pull request and/or no secure environment variables, running headless tests...";
-    npm run test:polymer:local || travis_terminate 1;
-  fi
+- npm test
 - |
   if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == false ] && [ $TRAVIS_EVENT_TYPE != "cron" ]; then
     echo "Not a Pull Request and on branch master so bumping version";
@@ -28,5 +18,4 @@ env:
   - OWNER_NAME=BrightspaceUI
   - REPO_NAME=more-less
   - SAUCE_USERNAME: Desire2Learn
-  - secure: JcitFMmIwUib1xQHMR4nxXtAcUmH76VJaYRKF6cN/vDZJqhVt+w+CZnZGhJ6cNtG162MycbJQKtAt/dzUC32aCsmSeA3GlD6zV0j6frRHy0n+/blO0tL4jLley4m1dobRiOY0au3o02yrS+sxZQdgYnxoRr7X8Ch29cjJrj6cc7sVG0OQtuJTlUysOY4/pCkp+XXrFNMAP0Ria/LkuqiFQx2JsokssM7Cm/iWjddX6IQjypmEg3koNY7+qbxxexbYAJg/jBMi1Eu+aoQjIr9q4w/ZMKafdJ2l94q1Z0OrgpnsiOFPMG4Lx4k9OkJ35pZ5vYWSNmiG6p1mkfnpr/xNsFscN51daI6MpI5D/8mgHv01F0E40zc/UdOFK6PnfkZCXnCc++Micfi+o2cbxkzMb6WM2Cr2hepsbbvV2Tci1J207wFxNf0PHhIGzhoXScqChhLyDaIvAP40IFvXjAIovt0zM4SUGETMK43p27hgcV+iAL5Cfuo/4tHhAS64DrcpGVMnpBrIdbSZSgJa9adheIo36NNr9NLLDkxinNTEzJpc6ZRWU934bX7n7wTrYD7LHch+Lacwg7iOi4QuB4so7ObiY8JXYundfRHvnWrgq+xRhJSmCVtAhTI9ITLkawDREeOtWMaP9XiBJdbUBrCXKCa+YU82OIajA6oYBNVFeM=
   - secure: ZjhMBjBSTiV2g5Im4JgZVMFLXWQtTjAfwAbk3QbZkMbOY/qspTXwEO11St8fDTq4Gnl8h0VVfoE/3NlW0+ynYXmcIgz9Y0d48+lmAa8TwH00Czt0XRrjKkNdZfYiOu9HG+cn/RRUm9QQrPdORNdYgWi/No5PRcOIXJEWbu4xJEWsxIf9VGed/DFNFKK+UwbidlEWNNhNsrkEb+T/zD+v49Knyg3SJhGqg3HScLH4TiLojD8/2phr4xEzWNw/q8osN6L/dwlexH2ZYPj1Bml8hG7ojels5Hbk5TiUmPzczF3AZHi8d+BVrHIO3s0FOP2eVdA0svIKUyyW11muvuptBfN6lUDwHVweMjaD/0yVrhAcDHr44jSlz5D6IFMcVfXJWdX5yjKMGnLvCYae/CeIRmR3ZBIhQq36tUEf+WyhLRxJ+YtmGuaAvJAwfMZxPxt6cDu7uyr45O2hfqRrHcDtGEdGvk0CliU9lKRdJDpru5WFiJqaGZ9pFifGThpUbGvDHyaJ58gP0cNQXF/j5d/m7eSFeqPrvj41o0ZNW8n4+iHgHWtkdgKlLb8YZa1rbf8LyCYzLesuS4TmE0QdECFeR2RMXWKmeUKs6gWAsMGZt4jrWLTl6sxlLUwWMqCTa0Cs+EOpV+ncuABGpCbjq+Fex12OfG6NmyyQvWRwhHot6dg=
